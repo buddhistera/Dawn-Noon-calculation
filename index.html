@@ -55,9 +55,9 @@
         </div>
 
         <div class="input-group">
-            <label id="lblLoc">ප්‍රදේශයේ නම: <input type="text" id="locationName" value="කොළඹ"></label>
-            <label id="lblLat">අක්ෂාංශ (Lat): <input type="number" id="lat" value="6.8883" step="0.0001"></label>
-            <label id="lblLon">දේශාංශ (Lon): <input type="number" id="lon" value="79.9187" step="0.0001"></label>
+            <label id="lblLoc">ප්‍රදේශයේ නම: <input type="text" id="locationName" value="සේරුවිල"></label>
+            <label id="lblLat">අක්ෂාංශ (Lat): <input type="number" id="lat" value="8.3255" step="0.0001"></label>
+            <label id="lblLon">දේශාංශ (Lon): <input type="number" id="lon" value="81.2995" step="0.0001"></label>
             <label id="lblYear">වර්ෂය: <input type="number" id="yearSelect" value="2026" min="1900" max="2100"></label>
             <button class="btn-gen" id="btnGen" onclick="generateLith()"> සටහන සාදන්න</button>
         </div>
@@ -65,7 +65,7 @@
 
     <div class="lith-container" id="lithContainer">
         <div class="lith-header">
-            <h1 id="mainTitle">ශ්‍රී ලංකාවේ අරුණෝද්ගමනය</h1>
+            <h1 id="mainTitle">ශ්‍රී ลංකාවේ අරුණෝද්ගමනය</h1>
             <h2 id="subTitle">ඉර උදාවීම හා මධ්‍යහ්නය</h2>
         </div>
         
@@ -79,6 +79,69 @@
     </div>
 
 <script>
+
+const AstronomyEngine = {
+        getJulianDate: function(year, month, day, hour = 12, minute = 0, second = 0) {
+            if (month <= 2) { year -= 1; month += 12; }
+            let A = Math.floor(year / 100);
+            let B = 2 - A + Math.floor(A / 4);
+            let dayFraction = (hour + minute/60 + second/3600) / 24;
+            return Math.floor(365.25 * (year + 4716)) + Math.floor(30.6001 * (month + 1)) + day + B - 1524.5 + dayFraction;
+        },
+        getSolarPosition: function(jd) {
+            let T = (jd - 2451545.0) / 36525;
+            let L0 = (280.46646 + T * (36000.76983 + T * 0.0003032)) % 360;
+            let M = (357.52911 + T * (35999.05029 - 0.0001537 * T)) * Math.PI / 180;
+            let e = 0.016708634 - T * (0.000042037 + 0.0000001267 * T);
+            let C = ( (1.914602 - T * (0.004817 + 0.000014 * T)) * Math.sin(M) +
+                      (0.019993 - 0.000101 * T) * Math.sin(2 * M) +
+                      0.000289 * Math.sin(3 * M) );
+            let sunTrueLong = L0 + C;
+            let sunAppLong = (sunTrueLong - 0.00569 - 0.00478 * Math.sin((125.04 - 1934.136 * T) * Math.PI / 180)) * Math.PI / 180;
+            let obliq = (23.439291 - T * (46.836769 / 3600)) * Math.PI / 180;
+            
+            let dec = Math.asin(Math.sin(obliq) * Math.sin(sunAppLong)) * 180 / Math.PI;
+            let ra = Math.atan2(Math.cos(obliq) * Math.sin(sunAppLong), Math.cos(sunAppLong)) * 180 / Math.PI;
+            if (ra < 0) ra += 360;
+            
+            let y = Math.tan(obliq / 2) * Math.tan(obliq / 2);
+            let eqt = 4 * (y * Math.sin(2 * L0 * Math.PI / 180) - 2 * e * Math.sin(M) + 4 * e * y * Math.sin(M) * Math.cos(2 * L0 * Math.PI / 180) - 0.5 * y * y * Math.sin(4 * L0 * Math.PI / 180) - 1.25 * e * e * Math.sin(2 * M)) * 180 / Math.PI;
+            
+            return { declination: dec, rightAscension: ra, eqTime: eqt };
+        },
+        calculateDay: function(year, month, day, lat, lon, zone) {
+            let jdNoon = this.getJulianDate(year, month, day, 12, 0, 0) - (lon / 360);
+            let sunNoon = this.getSolarPosition(jdNoon);
+            
+            let solNoonMinutes = 720 - (4 * lon) - sunNoon.eqTime + (zone * 60);
+            
+            let latRad = lat * Math.PI / 180;
+            let decRad = sunNoon.declination * Math.PI / 180;
+            let altRad = -0.833 * Math.PI / 180; // Sunrise standard altitude
+            
+            let cosH = (Math.sin(altRad) - Math.sin(latRad) * Math.sin(decRad)) / (Math.cos(latRad) * Math.cos(decRad));
+            if (cosH > 1 || cosH < -1) return null;
+            
+            let H = Math.acos(cosH) * 180 / Math.PI;
+            let sunriseMins = solNoonMinutes - (H * 4);
+            let dawnMins = sunriseMins - 30; // ⏰ ඉර උදාවට වඩා හරියටම පැය භාගයක් (මිනිත්තු 30) අඩුවෙන් අරුණෝදය සකසන ලදී.
+
+            return {
+                twilight: formatMins(dawnMins),
+                sunrise: formatMins(sunriseMins),
+                noon: formatMins(solNoonMinutes)
+            };
+        }
+    };
+
+    function formatMins(m_val) {
+        m_val = (m_val + 1440) % 1440;
+        let h = Math.floor(m_val / 60);
+        let m = Math.round(m_val % 60);
+        if(m === 60) { h = (h+1)%24; m = 0; }
+        return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+    }
+
     let currentLang = "si"; 
     let monthlyDataStructure = {}; 
 
@@ -118,45 +181,29 @@
         }
     }
 
-    function formatTime(date) {
-        if (!date) return "--:--";
-        return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
-    }
-
     function generateLith() {
         const locName = document.getElementById('locationName').value;
         const lat = parseFloat(document.getElementById('lat').value);
         const lon = parseFloat(document.getElementById('lon').value);
         const year = parseInt(document.getElementById('yearSelect').value);
+        const zone = 5.5; // Sri Lanka Time Zone Standard
         const data = langData[currentLang];
         
         document.getElementById('mainTitle').innerText = currentLang === "si" ? `${locName} ${data.titleSuf}` : `${locName} - ${data.titleSuf}`;
         document.getElementById('subTitle').innerText = data.subTitle;
         
         for(let m=0; m<12; m++) { monthlyDataStructure[m] = []; }
-        let startDate = new Date(year, 0, 1, 12, 0, 0);
 
-        while (startDate.getFullYear() === year) {
-            const currentDate = new Date(startDate);
-            const currentMonth = currentDate.getMonth();
-            const d = currentDate.getDate();
-            const m = currentMonth + 1;
-            
-            let variance = Math.sin((360/365) * (d + m*30 - 81) * Math.PI / 180) * 15;
-            let baseNoon = new Date(year, currentMonth, d, 12, 14, 0);
-            baseNoon.setSeconds(baseNoon.getSeconds() - (variance * 60) + (81.3 - lon)*4*60);
-
-            let dayOfYear = d + currentMonth * 30;
-            let seasonShift = Math.cos((360/365) * (dayOfYear - 172) * Math.PI / 180) * 14; 
-            let baseSunrise = new Date(year, currentMonth, d, 6, 12, 0);
-            baseSunrise.setSeconds(baseSunrise.getSeconds() - (variance * 60) + (81.3 - lon)*4*60 + (seasonShift * 60));
-
-            const baseTwilight = new Date(baseSunrise.getTime() - (30 * 60 * 1000));
-
-            monthlyDataStructure[currentMonth].push({
-                date: d, twilight: formatTime(baseTwilight), sunrise: formatTime(baseSunrise), noon: formatTime(baseNoon)
-            });
-            startDate.setDate(startDate.getDate() + 1);
+        for (let m = 0; m < 12; m++) {
+            let totalDays = new Date(year, m + 1, 0).getDate();
+            for (let d = 1; d <= totalDays; d++) {
+                let times = AstronomyEngine.calculateDay(year, m + 1, d, lat, lon, zone);
+                if (times) {
+                    monthlyDataStructure[m].push({
+                        date: d, twilight: times.twilight, sunrise: times.sunrise, noon: times.noon
+                    });
+                }
+            }
         }
 
         const colIds = ['col1', 'col2', 'col3'];
@@ -182,6 +229,7 @@
             let lastTwilight = ""; let lastSunrise = ""; let lastNoon = "";
 
             monthlyDataStructure[m].forEach((row, index) => {
+                // ✨ දත්ත පරිපූර්ණව සංක්ෂිප්ත කිරීමේ නීතිය
                 if (index === 0 || row.twilight !== lastTwilight || row.sunrise !== lastSunrise || row.noon !== lastNoon || index === monthlyDataStructure[m].length - 1) {
                     monthHtml += `
                         <tr>
