@@ -2,8 +2,8 @@
 <html lang="si">
 <head>
     <meta charset="UTF-8">
-    <title>වාර්ෂික සූර්ය කාලසටහන / Annual Solar Calendar</title>
-
+    <title>Annual Solar Calendar</title>
+    <!-- 🖼️ html2canvas පුස්තකාලය -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 20px; background: #f0f4f8; color: #1e293b; margin: 0; }
@@ -11,9 +11,9 @@
                
         .notice-bar { background-color: #fef2f2; color: #dc2626; font-weight: bold; border-left: 6px solid #dc2626; padding: 15px; margin-bottom: 20px; border-radius: 6px; font-size: 16px; line-height: 1.5; }
         
-        .input-group { display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-end; }
-        label { font-weight: bold; font-size: 15px; display: flex; flex-direction: column; gap: 8px; color: #0f172a; flex: 1; min-width: 180px; }
-        input, select { padding: 12px 16px; font-size: 16px; border: 2px solid #cbd5e1; border-radius: 8px; width: 100%; box-sizing: border-box; transition: border-color 0.2s; background-color: #fff; }
+        .input-group { display: flex; flex-wrap: wrap; gap: 15px; align-items: flex-end; }
+        label { font-weight: bold; font-size: 14px; display: flex; flex-direction: column; gap: 6px; color: #0f172a; flex: 1; min-width: 170px; }
+        input, select { padding: 10px 14px; font-size: 15px; border: 2px solid #cbd5e1; border-radius: 8px; width: 100%; box-sizing: border-box; transition: border-color 0.2s; background-color: #fff; }
         input:focus, select:focus { border-color: #0284c7; outline: none; }
         
         button { padding: 12px 24px; font-size: 16px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: all 0.2s; }
@@ -25,26 +25,27 @@
         .btn-dl { background: #10b981; color: white; display: none; margin: 10px auto 25px auto; }
         .btn-dl:hover { background: #059669; }
 
-        .lith-container { background: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); display: none; width: 794px; max-width: 100%; min-height: 297mm; margin: 0 auto; box-sizing: border-box; }
+        /* 📱 Container පරාසයන් */
+        .lith-container { background: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); display: none; width: 840px; max-width: 100%; min-height: 297mm; margin: 0 auto; box-sizing: border-box; }
         .lith-header { text-align: center; margin-bottom: 15px; border-bottom: 2px double #0284c7; padding-bottom: 8px; }
         .lith-header h1 { margin: 0; color: #0f172a; font-size: 24px; font-weight: bold; line-height: 1.2; }
         .lith-header h2 { margin: 4px 0 0 0; color: #475569; font-size: 15px; font-weight: normal; }
         
-        .lith-columns { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
-        .column { display: flex; flex-direction: column; gap: 12px; }
+        .lith-columns { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+        .column { display: flex; flex-direction: column; gap: 10px; }
         
         .month-section { border: 1px solid #64748b; border-radius: 4px; overflow: hidden; background: #fff; }
         .month-title { background: #cbd5e1; color: #0f172a; padding: 6px; font-size: 13px; font-weight: bold; text-align: center; border-bottom: 1px solid #64748b; }
         
-        table { width: 100%; border-collapse: collapse; font-size: 11px; }
-        th, td { border: 1px solid #94a3b8; padding: 3px 4px; text-align: center; }
-        th { background-color: #f1f5f9; font-weight: bold; color: #1e293b; font-size: 10px; }
+        table { width: 100%; border-collapse: collapse; font-size: 10.5px; }
+        th, td { border: 1px solid #94a3b8; padding: 4px 2px; text-align: center; }
+        th { background-color: #f1f5f9; font-weight: bold; color: #1e293b; font-size: 9.5px; }
         
         .col-date { font-weight: bold; color: #000; background-color: #f1f5f9; }
-        .col-twilight { background-color: #fffbeb; color: #b45309; }
+        .col-twilight { background-color: #fef2f2; color: #dc2626; }
+        .col-civil { background-color: #fffbeb; color: #b45309; font-weight: 500; }
         .col-sunrise { background-color: #fef3c7; color: #d97706; font-weight: bold; }
         .col-noon { background-color: #f0fdf4; color: #16a34a; }
-
 
         .lith-footer { margin-top: 25px; border-top: 1px dashed #64748b; padding-top: 10px; font-size: 11px; color: #475569; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     </style>
@@ -54,7 +55,6 @@
     <button class="btn-lang" id="langBtn" onclick="toggleLanguage()">English</button>
 
     <div class="controls">
-        
         <div class="notice-bar" id="noticeText">
             ⚠️ කරුණාකර ඔබ සිටින ස්ථානයේ නම, කණ්ඩාංක සහ වේලා කලාපය (GMT) නිවැරදිව ඇතුළත් කරන්න. එවිට එම ස්ථානයට අදාළව දත්ත නිවැරදිව ජනනය වේ.
         </div>
@@ -65,7 +65,7 @@
             <label id="lblLon">දේශාංශ (Lon): <input type="number" id="lon" value="79.9138" step="0.0001"></label>
             <label id="lblYear">වර්ෂය: <input type="number" id="yearSelect" value="2026" min="1900" max="2100"></label>
             
-            <label id="lblZone">🌐 වේලා කලාපය (Time Zone): 
+            <label id="lblZone">වේලා කලාපය (Time Zone): 
                 <select id="tzSelect">
                     <option value="-12">-12:00</option> <option value="-11">-11:00</option> <option value="-10">-10:00</option>
                     <option value="-9">-09:00</option> <option value="-8">-08:00 (PST)</option> <option value="-7">-07:00 (MST)</option>
@@ -145,17 +145,28 @@ const AstronomyEngine = {
             
             let latRad = lat * Math.PI / 180;
             let decRad = sunNoon.declination * Math.PI / 180;
-            let altRad = -0.833 * Math.PI / 180; 
             
-            let cosH = (Math.sin(altRad) - Math.sin(latRad) * Math.sin(decRad)) / (Math.cos(latRad) * Math.cos(decRad));
-            if (cosH > 1 || cosH < -1) return null;
-            
-            let H = Math.acos(cosH) * 180 / Math.PI;
-            let sunriseMins = solNoonMinutes - (H * 4);
-            let dawnMins = sunriseMins - twiOffset; 
+
+            let altRadSunrise = -0.833 * Math.PI / 180; 
+            let cosH_sun = (Math.sin(altRadSunrise) - Math.sin(latRad) * Math.sin(decRad)) / (Math.cos(latRad) * Math.cos(decRad));
+            if (cosH_sun > 1 || cosH_sun < -1) return null;
+            let H_sun = Math.acos(cosH_sun) * 180 / Math.PI;
+            let sunriseMins = solNoonMinutes - (H_sun * 4);
+
+            let altRadCivil = -6.0 * Math.PI / 180;
+            let cosH_civil = (Math.sin(altRadCivil) - Math.sin(latRad) * Math.sin(decRad)) / (Math.cos(latRad) * Math.cos(decRad));
+            let civilMins = sunriseMins;
+            if (cosH_civil <= 1 && cosH_civil >= -1) {
+                let H_civil = Math.acos(cosH_civil) * 180 / Math.PI;
+                civilMins = solNoonMinutes - (H_civil * 4);
+            }
+
+
+            let customDawnMins = sunriseMins - twiOffset; 
 
             return {
-                twilight: formatMins(dawnMins),
+                twilight: formatMins(customDawnMins),
+                civil: formatMins(civilMins),
                 sunrise: formatMins(sunriseMins),
                 noon: formatMins(solNoonMinutes)
             };
@@ -177,9 +188,9 @@ const AstronomyEngine = {
         si: {
             notice: "⚠️ කරුණාකර ඔබ සිටින ස්ථානයේ නම, කණ්ඩාංක සහ වේලා කලාපය (GMT) නිවැරදිව ඇතුළත් කරන්න. එවිට එම ස්ථානයට අදාළව දත්ත නිවැරදිව ජනනය වේ.",
             lblLoc: "ප්‍රදේශයේ නම:", lblLat: "අක්ෂාංශ (Lat):", lblLon: "දේශාංශ (Lon):", lblYear: "වර්ෂය:",
-            lblZone: "🌐 වේලා කලාපය (Time Zone):", lblTwiMin: "අරුණෝදය සඳහා අඩු කළ යුතු කාලය (මිනිත්තු):",
+            lblZone: "වේලා කලාපය (Time Zone):", lblTwiMin: "අරුණෝදය සඳහා අඩු කළ යුතු කාලය (මිනිත්තු):",
             btnGen: "සටහන සාදන්න", titleSuf: "ප්‍රදේශයේ අරුණෝද්ගමනය", subTitle: "ඉර උදාවීම හා මධ්‍යහ්නය",
-            thDate: "දිනය", thTwi: "අරුණෝදය", thSun: "☀️ උදාව", thNoon: "🔆 මධ්‍යහ්නය",
+            thDate: "දිනය", thTwi: "විනය අරුණෝදය", thCivil: "සිවිල් අරුණෝදය", thSun: "☀️ උදාව", thNoon: "🔆 මධ්‍යහ්නය",
             footerLoc: "ස්ථානය", footerYear: "වර්ෂය", footerLat: "අක්ෂාංශ", footerLon: "දේශාංශ", footerGmt: "වේලා කලාපය",
             btnDl: "🖼️ JPG ලෙස බාගත කරන්න",
             months: ["ජනවාරි", "පෙබරවාරි", "මාර්තු", "අප්‍රේල්", "මැයි", "ජුනි", "ජූලි", "අගෝස්තු", "සැප්තැම්බර්", "ඔක්තෝම්බර්", "නොවැම්බර්", "දෙසැම්බර්"]
@@ -189,7 +200,7 @@ const AstronomyEngine = {
             lblLoc: "Location Name:", lblLat: "Latitude (Lat):", lblLon: "Longitude (Lon):", lblYear: "Year:",
             lblZone: "Time Zone:", lblTwiMin: "Dawn Offset Time (Minutes):",
             btnGen: "Generate Calendar", titleSuf: "Solar Dawn & Noon", subTitle: "Sunrise and Solar Noon Times",
-            thDate: "Date", thTwi: "🌅 Dawn", thSun: "☀️ Sunrise", thNoon: "🔆 Noon",
+            thDate: "Date", thTwi: "Dawn", thCivil: "Civil Twilight", thSun: "☀️ Sunrise", thNoon: "🔆 Noon",
             footerLoc: "Location", footerYear: "Year", footerLat: "Lat", footerLon: "Lon", footerGmt: "Time Zone",
             btnDl: "🖼️ Download as JPG",
             months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
@@ -236,7 +247,7 @@ const AstronomyEngine = {
                 let times = AstronomyEngine.calculateDay(year, m + 1, d, lat, lon, zone, twiOffset);
                 if (times) {
                     monthlyDataStructure[m].push({
-                        date: d, twilight: times.twilight, sunrise: times.sunrise, noon: times.noon
+                        date: d, twilight: times.twilight, civil: times.civil, sunrise: times.sunrise, noon: times.noon
                     });
                 }
             }
@@ -254,10 +265,11 @@ const AstronomyEngine = {
                     <table>
                         <thead>
                             <tr>
-                                <th style="width:22%;">${data.thDate}</th>
-                                <th>${data.thTwi}</th>
-                                <th>${data.thSun}</th>
-                                <th>${data.thNoon}</th>
+                                <th style="width:16%;">${data.thDate}</th>
+                                <th style="width:21%;">${data.thTwi}</th>
+                                <th style="width:21%;">${data.thCivil}</th>
+                                <th style="width:21%;">${data.thSun}</th>
+                                <th style="width:21%;">${data.thNoon}</th>
                             </tr>
                         </thead>
                         <tbody>`;
@@ -267,12 +279,12 @@ const AstronomyEngine = {
 
             monthlyDataStructure[m].forEach((row) => {
                 if (!currentGroup) {
-                    currentGroup = { start: row.date, end: row.date, twilight: row.twilight, sunrise: row.sunrise, noon: row.noon };
-                } else if (currentGroup.twilight === row.twilight && currentGroup.sunrise === row.sunrise && currentGroup.noon === row.noon) {
+                    currentGroup = { start: row.date, end: row.date, twilight: row.twilight, civil: row.civil, sunrise: row.sunrise, noon: row.noon };
+                } else if (currentGroup.twilight === row.twilight && currentGroup.civil === row.civil && currentGroup.sunrise === row.sunrise && currentGroup.noon === row.noon) {
                     currentGroup.end = row.date;
                 } else {
                     compressedRows.push(currentGroup);
-                    currentGroup = { start: row.date, end: row.date, twilight: row.twilight, sunrise: row.sunrise, noon: row.noon };
+                    currentGroup = { start: row.date, end: row.date, twilight: row.twilight, civil: row.civil, sunrise: row.sunrise, noon: row.noon };
                 }
             });
             if (currentGroup) compressedRows.push(currentGroup);
@@ -286,6 +298,7 @@ const AstronomyEngine = {
                     <tr>
                         <td class="col-date">${dateDisplay}</td>
                         <td class="col-twilight">${group.twilight}</td>
+                        <td class="col-civil">${group.civil}</td>
                         <td class="col-sunrise">${group.sunrise}</td>
                         <td class="col-noon">${group.noon}</td>
                     </tr>`;
@@ -310,15 +323,16 @@ const AstronomyEngine = {
         const originalStyle = target.style.cssText;
         const originalTitleStyle = mainTitle.style.cssText;
         
-        target.style.cssText += 'width: 794px !important; min-width: 794px !important; max-width: 794px !important; display: block !important;';
-        mainTitle.style.cssText += 'font-size: 24px !important; max-width: 750px !important; margin: 0 auto !important;';
+
+        target.style.cssText += 'width: 840px !important; min-width: 840px !important; max-width: 840px !important; display: block !important;';
+        mainTitle.style.cssText += 'font-size: 24px !important; max-width: 800px !important; margin: 0 auto !important;';
 
         html2canvas(target, {
             scale: 2.5, 
             useCORS: true,
             backgroundColor: "#ffffff",
             logging: false,
-            windowWidth: 794 
+            windowWidth: 840 
         }).then(canvas => {
             target.style.cssText = originalStyle;
             mainTitle.style.cssText = originalTitleStyle;
@@ -336,32 +350,6 @@ const AstronomyEngine = {
             console.error("බාගත කිරීමේ දෝෂයක්:", err);
             alert("කරුණාකර නැවත උත්සාහ කරන්න.");
         });
-  if ('serviceWorker' in navigator) {
-
-  window.addEventListener('load', async () => {
-
-    try {
-
-      const reg =
-        await navigator.serviceWorker.register('./sw.js');
-
-      console.log('Service Worker Registered');
-
-      navigator.serviceWorker.addEventListener(
-        'controllerchange',
-        () => {
-          window.location.reload();
-        }
-      );
-
-    } catch (err) {
-
-      console.error('SW Error:', err);
-
-    }
-
-  });  
-  }          
     }
 </script>
 </body>
