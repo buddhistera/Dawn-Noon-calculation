@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>වාර්ෂික සූර්ය කාලසටහන / Annual Solar Calendar</title>
-    <!-- 🖼️ උසස් තත්ත්වයේ රූප නිවැරදිව බාගත කර ගැනීමට html2canvas පුස්තකාලය එක් කරන ලදී -->
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 20px; background: #f0f4f8; color: #1e293b; margin: 0; }
@@ -22,13 +22,12 @@
         .btn-lang { background: #475569; color: white; margin-bottom: 15px; }
         .btn-lang:hover { background: #334155; }
         
-        /* 📥 JPG ලෙස බාගත කරන්න බොත්තමේ විලාසිතා */
         .btn-dl { background: #10b981; color: white; display: none; margin: 10px auto 25px auto; }
         .btn-dl:hover { background: #059669; }
 
-        .lith-container { background: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); display: none; width: 210mm; min-height: 297mm; margin: 0 auto; box-sizing: border-box; }
+        .lith-container { background: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); display: none; width: 794px; max-width: 100%; min-height: 297mm; margin: 0 auto; box-sizing: border-box; }
         .lith-header { text-align: center; margin-bottom: 15px; border-bottom: 2px double #0284c7; padding-bottom: 8px; }
-        .lith-header h1 { margin: 0; color: #0f172a; font-size: 24px; font-weight: bold; }
+        .lith-header h1 { margin: 0; color: #0f172a; font-size: 24px; font-weight: bold; line-height: 1.2; }
         .lith-header h2 { margin: 4px 0 0 0; color: #475569; font-size: 15px; font-weight: normal; }
         
         .lith-columns { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
@@ -46,7 +45,8 @@
         .col-sunrise { background-color: #fef3c7; color: #d97706; font-weight: bold; }
         .col-noon { background-color: #f0fdf4; color: #16a34a; }
 
-        .lith-footer { margin-top: 25px; border-top: 1px dashed #64748b; padding-top: 10px; font-size: 11px; color: #475569; text-align: center; line-height: 1.6; }
+
+        .lith-footer { margin-top: 25px; border-top: 1px dashed #64748b; padding-top: 10px; font-size: 11px; color: #475569; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     </style>
 </head>
 <body>
@@ -56,7 +56,7 @@
     <div class="controls">
         
         <div class="notice-bar" id="noticeText">
-            ⚠️ කරුණාකර ඔබ සිටින ස්ථානයේ නම සහ කණ්ඩාංක නිවැරදිව ඇතුළත් කරන්න. එවිට එම ස්ථානයට අදාළව දත්ත නිවැරදිව ජනනය වේ.
+            ⚠️ කරුණාකර ඔබ සිටින ස්ථානයේ නම, කණ්ඩාංක සහ වේලා කලාපය (GMT) නිවැරදිව ඇතුළත් කරන්න. එවිට එම ස්ථානයට අදාළව දත්ත නිවැරදිව ජනනය වේ.
         </div>
 
         <div class="input-group">
@@ -64,6 +64,9 @@
             <label id="lblLat">අක්ෂාංශ (Lat): <input type="number" id="lat" value="6.8878" step="0.0001"></label>
             <label id="lblLon">දේශාංශ (Lon): <input type="number" id="lon" value="79.9138" step="0.0001"></label>
             <label id="lblYear">වර්ෂය: <input type="number" id="yearSelect" value="2026" min="1900" max="2100"></label>
+            <label id="lblGmt">වේලා කලාපය (GMT): <input type="number" id="gmtZone" value="5.5" step="0.5"></label>
+            <label id="lblTwiMin">අරුණෝදය සඳහා අඩු කළ යුතු කාලය (මිනිත්තු): <input type="number" id="twiMinutes" value="30" min="0" max="120"></label>
+            
             <button class="btn-gen" id="btnGen" onclick="generateLith()"> සටහන සාදන්න</button>
         </div>
     </div>
@@ -118,7 +121,7 @@ const AstronomyEngine = {
             
             return { declination: dec, rightAscension: ra, eqTime: eqt };
         },
-        calculateDay: function(year, month, day, lat, lon, zone) {
+        calculateDay: function(year, month, day, lat, lon, zone, twiOffset) {
             let jdNoon = this.getJulianDate(year, month, day, 12, 0, 0) - (lon / 360);
             let sunNoon = this.getSolarPosition(jdNoon);
             
@@ -133,7 +136,7 @@ const AstronomyEngine = {
             
             let H = Math.acos(cosH) * 180 / Math.PI;
             let sunriseMins = solNoonMinutes - (H * 4);
-            let dawnMins = sunriseMins - 30; 
+            let dawnMins = sunriseMins - twiOffset; 
 
             return {
                 twilight: formatMins(dawnMins),
@@ -156,20 +159,22 @@ const AstronomyEngine = {
 
     const langData = {
         si: {
-            notice: "⚠️ කරුණාකර ඔබ සිටින ස්ථානයේ නම සහ කණ්ඩාංක නිවැරදිව ඇතුළත් කරන්න. එවිට එම ස්ථානයට අදාළව දත්ත නිවැරදිව ජනනය වේ.",
+            notice: "⚠️ කරුණාකර ඔබ සිටින ස්ථානයේ නම, කණ්ඩාංක සහ වේලා කලාපය (GMT) නිවැරදිව ඇතුළත් කරන්න. එවිට එම ස්ථානයට අදාළව දත්ත නිවැරදිව ජනනය වේ.",
             lblLoc: "ප්‍රදේශයේ නම:", lblLat: "අක්ෂාංශ (Lat):", lblLon: "දේශාංශ (Lon):", lblYear: "වර්ෂය:",
+            lblGmt: "වේලා කලාපය (GMT):", lblTwiMin: "අරුණෝදය සඳහා අඩු කළ යුතු කාලය (මිනිත්තු):",
             btnGen: "සටහන සාදන්න", titleSuf: "ප්‍රදේශයේ අරුණෝද්ගමනය", subTitle: "ඉර උදාවීම හා මධ්‍යහ්නය",
             thDate: "දිනය", thTwi: "අරුණෝදය", thSun: "☀️ උදාව", thNoon: "🔆 මධ්‍යහ්නය",
-            footerLoc: "ස්ථානය", footerYear: "වර්ෂය", footerLat: "අක්ෂාංශ", footerLon: "දේශාංශ",
+            footerLoc: "ස්ථානය", footerYear: "වර්ෂය", footerLat: "අක්ෂාංශ", footerLon: "දේශාංශ", footerGmt: "වේලා කලාපය",
             btnDl: "🖼️ JPG ලෙස බාගත කරන්න",
-            months: ["ජනවාරි", "පෙබරවාරි", "මාර්තු", "අප්‍රේල්", "මැයි", "ජූනි", "ජූලි", "අගෝස්තු", "සැප්තැම්බර්", "ඔක්තෝම්බර්", "නොවැම්බර්", "දෙසැම්බර්"]
+            months: ["ජනවාරි", "පෙබරවාරි", "මාර්තු", "අප්‍රේල්", "මැයි", "ජුනි", "ජූලි", "අගෝස්තු", "සැප්තැම්බර්", "ඔක්තෝම්බර්", "නොවැම්බර්", "දෙසැම්බර්"]
         },
         en: {
-            notice: "⚠️ Please enter your location name and coordinates accurately. Data will be generated specific to that location.",
+            notice: "⚠️ Please enter your location name, coordinates, and Time Zone (GMT) accurately. Data will be generated specific to that location.",
             lblLoc: "Location Name:", lblLat: "Latitude (Lat):", lblLon: "Longitude (Lon):", lblYear: "Year:",
+            lblGmt: "Time Zone (GMT):", lblTwiMin: "Dawn Offset Time (Minutes):",
             btnGen: "Generate Calendar", titleSuf: "Solar Dawn & Noon", subTitle: "Sunrise and Solar Noon Times",
             thDate: "Date", thTwi: "🌅 Dawn", thSun: "☀️ Sunrise", thNoon: "🔆 Noon",
-            footerLoc: "Location", footerYear: "Year", footerLat: "Lat", footerLon: "Lon",
+            footerLoc: "Location", footerYear: "Year", footerLat: "Lat", footerLon: "Lon", footerGmt: "Time Zone",
             btnDl: "🖼️ Download as JPG",
             months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
         }
@@ -185,6 +190,8 @@ const AstronomyEngine = {
         document.getElementById("lblLat").firstChild.textContent = data.lblLat + " ";
         document.getElementById("lblLon").firstChild.textContent = data.lblLon + " ";
         document.getElementById("lblYear").firstChild.textContent = data.lblYear + " ";
+        document.getElementById("lblGmt").firstChild.textContent = data.lblGmt + " ";
+        document.getElementById("lblTwiMin").firstChild.textContent = data.lblTwiMin + " ";
         document.getElementById("btnGen").innerText = data.btnGen;
         document.getElementById("btnDownload").innerText = data.btnDl;
         
@@ -198,7 +205,8 @@ const AstronomyEngine = {
         const lat = parseFloat(document.getElementById('lat').value);
         const lon = parseFloat(document.getElementById('lon').value);
         const year = parseInt(document.getElementById('yearSelect').value);
-        const zone = 5.5; 
+        const zone = parseFloat(document.getElementById('gmtZone').value); 
+        const twiOffset = parseInt(document.getElementById('twiMinutes').value) || 0; 
         const data = langData[currentLang];
         
         document.getElementById('mainTitle').innerText = currentLang === "si" ? `${locName} ${data.titleSuf}` : `${locName} - ${data.titleSuf}`;
@@ -209,7 +217,7 @@ const AstronomyEngine = {
         for (let m = 0; m < 12; m++) {
             let totalDays = new Date(year, m + 1, 0).getDate();
             for (let d = 1; d <= totalDays; d++) {
-                let times = AstronomyEngine.calculateDay(year, m + 1, d, lat, lon, zone);
+                let times = AstronomyEngine.calculateDay(year, m + 1, d, lat, lon, zone, twiOffset);
                 if (times) {
                     monthlyDataStructure[m].push({
                         date: d, twilight: times.twilight, sunrise: times.sunrise, noon: times.noon
@@ -271,25 +279,36 @@ const AstronomyEngine = {
             document.getElementById(colIds[targetColIndex]).innerHTML += monthHtml;
         }
 
+        let gmtPrefix = zone >= 0 ? "+" : "";
         document.getElementById('lithFooter').innerHTML = `
-            <strong>${data.footerLoc}:</strong> ${locName} | <strong>${data.footerYear}:</strong> ${year} | <strong>${data.footerLat}:</strong> ${lat}° | <strong>${data.footerLon}:</strong> ${lon}°
+            <strong>${data.footerLoc}:</strong> ${locName} &nbsp;|&nbsp; <strong>${data.footerYear}:</strong> ${year} &nbsp;|&nbsp; <strong>${data.footerLat}:</strong> ${lat}° &nbsp;|&nbsp; <strong>${data.footerLon}:</strong> ${lon}° &nbsp;|&nbsp; <strong>${data.footerGmt}:</strong> GMT ${gmtPrefix}${zone}
         `;
         document.getElementById('lithContainer').style.display = "block";
         document.getElementById('btnDownload').style.display = "inline-block";
     }
 
-    // 📸 html2canvas භාවිතයෙන් ඉතා පැහැදිලි 3x පරිමාණයේ (Ultra High-Quality) JPG රූපයක් ලබාගන්නා නව ශ්‍රිතය:
     function downloadAsJPG() {
         const target = document.getElementById('lithContainer');
+        const mainTitle = document.getElementById('mainTitle');
         
-        // උසස් නිමාවක් සඳහා කැලැන්ඩර කොටස පමණක් 3x ගුණයකින් විශාල කර කැන්වසයකට නගයි
+        const originalStyle = target.style.cssText;
+        const originalTitleStyle = mainTitle.style.cssText;
+        
+        target.style.cssText += 'width: 794px !important; min-width: 794px !important; max-width: 794px !important; display: block !important;';
+        mainTitle.style.cssText += 'font-size: 24px !important; max-width: 750px !important; margin: 0 auto !important;';
+
         html2canvas(target, {
-            scale: 3, 
+            scale: 2.5, 
             useCORS: true,
             backgroundColor: "#ffffff",
-            logging: false
+            logging: false,
+            windowWidth: 794 
         }).then(canvas => {
-            const jpgUrl = canvas.toDataURL('image/jpeg', 0.95);
+
+            target.style.cssText = originalStyle;
+            mainTitle.style.cssText = originalTitleStyle;
+
+            const jpgUrl = canvas.toDataURL('image/jpeg', 0.98);
             const downloadLink = document.createElement('a');
             downloadLink.href = jpgUrl;
             downloadLink.download = `Solar_Calendar_${document.getElementById('locationName').value || 'Unknown'}.jpg`;
@@ -297,10 +316,37 @@ const AstronomyEngine = {
             downloadLink.click();
             document.body.removeChild(downloadLink);
         }).catch(err => {
-            console.error("බාගත කිරීමේ දෝෂයක් ඇති විය:", err);
-            alert("රූපය සෑදීමේදී ගැටලුවක් මතු විය. කරුණාකර නැවත උත්සාහ කරන්න.");
+            target.style.cssText = originalStyle;
+            mainTitle.style.cssText = originalTitleStyle;
+            console.error("බාගත කිරීමේ දෝෂයක්:", err);
+            alert("කරුණාකර නැවත උත්සාහ කරන්න.");
         });
+ if ('serviceWorker' in navigator) {
+
+  window.addEventListener('load', async () => {
+
+    try {
+
+      const reg =
+        await navigator.serviceWorker.register('./sw.js');
+
+      console.log('Service Worker Registered');
+
+      navigator.serviceWorker.addEventListener(
+        'controllerchange',
+        () => {
+          window.location.reload();
+        }
+      );
+
+    } catch (err) {
+
+      console.error('SW Error:', err);
+
     }
+
+  });       
+ }
 </script>
 </body>
 </html>
