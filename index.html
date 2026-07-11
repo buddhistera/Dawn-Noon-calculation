@@ -274,20 +274,41 @@ const AstronomyEngine = {
                         </thead>
                         <tbody>`;
             
-            let compressedRows = [];
-            let currentGroup = null;
-
+            // මුලින්ම පිරිසිදු ලෙස Sunrise මත පමණක් Compress කර බැලීම
+            let tempGroup = null;
+            let firstPassRows = [];
+            
             monthlyDataStructure[m].forEach((row) => {
-                if (!currentGroup) {
-                    currentGroup = { start: row.date, end: row.date, twilight: row.twilight, civil: row.civil, sunrise: row.sunrise, noon: row.noon };
-                } else if (currentGroup.twilight === row.twilight && currentGroup.civil === row.civil && currentGroup.sunrise === row.sunrise && currentGroup.noon === row.noon) {
-                    currentGroup.end = row.date;
+                if (!tempGroup) {
+                    tempGroup = { start: row.date, end: row.date, twilight: row.twilight, civil: row.civil, sunrise: row.sunrise, noon: row.noon };
+                } else if (tempGroup.sunrise === row.sunrise) {
+                    tempGroup.end = row.date;
                 } else {
-                    compressedRows.push(currentGroup);
-                    currentGroup = { start: row.date, end: row.date, twilight: row.twilight, civil: row.civil, sunrise: row.sunrise, noon: row.noon };
+                    firstPassRows.push(tempGroup);
+                    tempGroup = { start: row.date, end: row.date, twilight: row.twilight, civil: row.civil, sunrise: row.sunrise, noon: row.noon };
                 }
             });
-            if (currentGroup) compressedRows.push(currentGroup);
+            if (tempGroup) firstPassRows.push(tempGroup);
+
+            let compressedRows = [];
+            
+            // පේළි ගණන 10 ට අඩු නම්, සෑම දින 3කට වරක් නව පේළියක් නිර්මාණය වන සේ බලහත්කාරයෙන් වෙන් කිරීම (Force Chunking)
+            if (firstPassRows.length < 10) {
+                let chunkGroup = null;
+                monthlyDataStructure[m].forEach((row, index) => {
+                    if (!chunkGroup) {
+                        chunkGroup = { start: row.date, end: row.date, twilight: row.twilight, civil: row.civil, sunrise: row.sunrise, noon: row.noon };
+                    } else if (chunkGroup.sunrise === row.sunrise && (row.date - chunkGroup.start < 3)) {
+                        chunkGroup.end = row.date;
+                    } else {
+                        compressedRows.push(chunkGroup);
+                        chunkGroup = { start: row.date, end: row.date, twilight: row.twilight, civil: row.civil, sunrise: row.sunrise, noon: row.noon };
+                    }
+                });
+                if (chunkGroup) compressedRows.push(chunkGroup);
+            } else {
+                compressedRows = firstPassRows;
+            }
 
             compressedRows.forEach(group => {
                 let dateDisplay = group.start === group.end ? 
