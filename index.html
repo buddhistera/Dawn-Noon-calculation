@@ -54,7 +54,17 @@
         .col-sunrise { background-color: #fef3c7; color: #d97706; font-weight: bold; }
         .col-noon { background-color: #f0fdf4; color: #16a34a; }
 
-        .lith-footer { margin-top: 25px; border-top: 1px dashed #64748b; padding-top: 10px; font-size: 12px; color: #475569; text-align: center; line-height: 1.6; }
+        .lith-footer { 
+    margin-top: 25px; 
+    border-top: 1px dashed #64748b; 
+    padding-top: 10px; 
+    font-size: 11px; 
+    color: #475569; 
+    text-align: center; 
+    white-space: nowrap; 
+    overflow-x: auto; 
+}
+
     </style>
 </head>
 <body>
@@ -335,8 +345,9 @@
 
         let gmtPrefix = zone >= 0 ? "+" : "";
         document.getElementById('lithFooter').innerHTML = `
-            <strong>${data.footerLoc}:</strong> ${locName} &nbsp;|&nbsp; <strong>${data.footerYear}:</strong> ${year} <br> <strong>${data.footerLat}:</strong> ${lat}° &nbsp;|&nbsp; <strong>${data.footerLon}:</strong> ${lon}° &nbsp;|&nbsp; <strong>${data.footerGmt}:</strong> GMT ${gmtPrefix}${zone}
-        `;
+    <strong>${data.footerLoc}:</strong> ${locName} &nbsp;|&nbsp; <strong>${data.footerYear}:</strong> ${year} &nbsp;|&nbsp; <strong>${data.footerLat}:</strong> ${lat}° &nbsp;|&nbsp; <strong>${data.footerLon}:</strong> ${lon}° &nbsp;|&nbsp; <strong>${data.footerGmt}:</strong> GMT ${gmtPrefix}${zone}
+`;
+
         document.getElementById('lithContainer').style.display = "block";
         document.getElementById('btnDownload').style.display = "inline-block";
     }
@@ -345,13 +356,13 @@
         const target = document.getElementById('lithContainer');
         
         html2canvas(target, {
-            scale: 2, 
+            scale: 2.5, 
             useCORS: true,
             backgroundColor: "#ffffff",
             logging: false,
             windowWidth: 1024 // පින්තූරය ගන්නා අවස්ථාවේදී පමණක් ස්ථාවර පළලක් අනුගමනය කරයි
         }).then(canvas => {
-            const jpgUrl = canvas.toDataURL('image/jpeg', 0.95);
+            const jpgUrl = canvas.toDataURL('image/jpeg', 0.98);
             const downloadLink = document.createElement('a');
             downloadLink.href = jpgUrl;
             downloadLink.download = `Solar_Calendar_${document.getElementById('locationName').value || 'Unknown'}.jpg`;
