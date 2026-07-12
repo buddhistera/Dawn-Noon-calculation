@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="si">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Annual Solar Calendar</title>
@@ -52,20 +52,20 @@
 </head>
 <body>
 
-    <button class="btn-lang" id="langBtn" onclick="toggleLanguage()">English</button>
+    <button class="btn-lang" id="langBtn" onclick="toggleLanguage()">සිංහල</button>
 
     <div class="controls">
         <div class="notice-bar" id="noticeText">
-            ⚠️ කරුණාකර ඔබ සිටින ස්ථානයේ නම, කණ්ඩාංක සහ වේලා කලාපය (GMT) නිවැරදිව ඇතුළත් කරන්න. එවිට එම ස්ථානයට අදාළව දත්ත නිවැරදිව ජනනය වේ.
+            ⚠️ Please enter your location name, coordinates, and Time Zone (GMT) accurately. Data will be generated specific to that location.
         </div>
 
         <div class="input-group">
-            <label id="lblLoc">ප්‍රදේශයේ නම: <input type="text" id="locationName" value="Unknown"></label>
-            <label id="lblLat">අක්ෂාංශ (Lat): <input type="number" id="lat" value="6.8878" step="0.0001"></label>
-            <label id="lblLon">දේශාංශ (Lon): <input type="number" id="lon" value="79.9138" step="0.0001"></label>
-            <label id="lblYear">වර්ෂය: <input type="number" id="yearSelect" value="2026" min="1900" max="2100"></label>
+            <label id="lblLoc">Location Name: <input type="text" id="locationName" value="Unknown"></label>
+            <label id="lblLat">Latitude (Lat): <input type="number" id="lat" value="6.8878" step="0.0001"></label>
+            <label id="lblLon">Longitude (Lon): <input type="number" id="lon" value="79.9138" step="0.0001"></label>
+            <label id="lblYear">Year: <input type="number" id="yearSelect" value="2026" min="1900" max="2100"></label>
             
-            <label id="lblZone">වේලා කලාපය (Time Zone): 
+            <label id="lblZone">Time Zone: 
                 <select id="tzSelect">
                     <option value="-12">-12:00</option> <option value="-11">-11:00</option> <option value="-10">-10:00</option>
                     <option value="-9">-09:00</option> <option value="-8">-08:00 (PST)</option> <option value="-7">-07:00 (MST)</option>
@@ -81,20 +81,20 @@
                 </select>
             </label>
 
-            <label id="lblTwiMin">අරුණෝදය සඳහා අඩු කළ යුතු කාලය (මිනිත්තු): <input type="number" id="twiMinutes" value="30" min="0" max="120"></label>
+            <label id="lblTwiMin">Dawn Offset Time (Minutes): <input type="number" id="twiMinutes" value="30" min="0" max="120"></label>
             
-            <button class="btn-gen" id="btnGen" onclick="generateLith()"> සටහන සාදන්න</button>
+            <button class="btn-gen" id="btnGen" onclick="generateLith()">Generate Calendar</button>
         </div>
     </div>
 
     <div style="text-align: center;">
-        <button class="btn-dl" id="btnDownload" onclick="downloadAsJPG()">🖼️ JPG ලෙස බාගත කරන්න</button>
+        <button class="btn-dl" id="btnDownload" onclick="downloadAsJPG()">🖼️ Download as JPG</button>
     </div>
 
     <div class="lith-container" id="lithContainer">
         <div class="lith-header">
-            <h1 id="mainTitle">ශ්‍රී ලංකාවේ අරුණෝද්ගමනය</h1>
-            <h2 id="subTitle">ඉර උදාවීම හා මධ්‍යහ්නය</h2>
+            <h1 id="mainTitle">Solar Dawn & Noon</h1>
+            <h2 id="subTitle">Sunrise and Solar Noon Times</h2>
         </div>
         
         <div class="lith-columns">
@@ -181,7 +181,7 @@ const AstronomyEngine = {
         return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
     }
 
-    let currentLang = "si"; 
+    let currentLang = "en"; 
     let monthlyDataStructure = {}; 
 
     const langData = {
@@ -292,7 +292,7 @@ const AstronomyEngine = {
 
             let compressedRows = [];
             
-            // පේළි ගණන 10 ට අඩු නම්, සෑම දින 3කට වරක් නව පේළියක් නිර්මාණය වන සේ බලහත්කාරයෙන් වෙන් කිරීම (Force Chunking)
+
             if (firstPassRows.length < 10) {
                 let chunkGroup = null;
                 monthlyDataStructure[m].forEach((row, index) => {
@@ -371,7 +371,33 @@ const AstronomyEngine = {
             console.error("බාගත කිරීමේ දෝෂයක්:", err);
             alert("කරුණාකර නැවත උත්සාහ කරන්න.");
         });
+        if ('serviceWorker' in navigator) {
+
+  window.addEventListener('load', async () => {
+
+    try {
+
+      const reg =
+        await navigator.serviceWorker.register('./sw.js');
+
+      console.log('Service Worker Registered');
+
+      navigator.serviceWorker.addEventListener(
+        'controllerchange',
+        () => {
+          window.location.reload();
+        }
+      );
+
+    } catch (err) {
+
+      console.error('SW Error:', err);
+
     }
+
+  });
+    }  
+ }
 </script>
 </body>
 </html>
