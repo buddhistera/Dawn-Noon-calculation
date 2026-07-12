@@ -3,7 +3,9 @@ const CACHE_NAME = ' Dawn-Noon-calculator-v1';
 const CACHE_ASSETS = [
   '/',
   '/index.html',
-  '/manifest.json'
+  '/manifest.json',
+  '/icon-192×192.png',
+  '/icon-512X512.png'
 ];
 
 // INSTALL
