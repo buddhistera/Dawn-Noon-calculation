@@ -3,16 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>Annual Solar Calendar</title>
+    
+    <!-- 📱 Manifest ගොනුව සම්බන්ධ කිරීම -->
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#d4af37">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <!-- 🖼️ html2canvas පුස්තකාලය -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 20px; background: #f0f4f8; color: #1e293b; margin: 0; }
-        .controls { background: #ffffff; padding: 25px; border-radius: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin-bottom: 25px; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 15px; background: #f0f4f8; color: #1e293b; margin: 0; }
+        .controls { background: #ffffff; padding: 20px; border-radius: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin-bottom: 25px; }
                
-        .notice-bar { background-color: #fef2f2; color: #dc2626; font-weight: bold; border-left: 6px solid #dc2626; padding: 15px; margin-bottom: 20px; border-radius: 6px; font-size: 16px; line-height: 1.5; }
+        .notice-bar { background-color: #fef2f2; color: #dc2626; font-weight: bold; border-left: 6px solid #dc2626; padding: 15px; margin-bottom: 20px; border-radius: 6px; font-size: 15px; line-height: 1.5; }
         
         .input-group { display: flex; flex-wrap: wrap; gap: 15px; align-items: flex-end; }
-        label { font-weight: bold; font-size: 14px; display: flex; flex-direction: column; gap: 6px; color: #0f172a; flex: 1; min-width: 170px; }
+        label { font-weight: bold; font-size: 14px; display: flex; flex-direction: column; gap: 6px; color: #0f172a; flex: 1; min-width: 200px; }
         input, select { padding: 10px 14px; font-size: 15px; border: 2px solid #cbd5e1; border-radius: 8px; width: 100%; box-sizing: border-box; transition: border-color 0.2s; background-color: #fff; }
         input:focus, select:focus { border-color: #0284c7; outline: none; }
         
@@ -25,21 +31,22 @@
         .btn-dl { background: #10b981; color: white; display: none; margin: 10px auto 25px auto; }
         .btn-dl:hover { background: #059669; }
 
-        /* 📱 Container පරාසයන් */
-        .lith-container { background: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); display: none; width: 840px; max-width: 100%; min-height: 297mm; margin: 0 auto; box-sizing: border-box; }
+        /* 📱 Flexible Container - ඕනෑම Screen එකකට ගැලපෙන ලෙස සකසා ඇත */
+        .lith-container { background: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); display: none; width: 100%; max-width: 1200px; margin: 0 auto; box-sizing: border-box; }
         .lith-header { text-align: center; margin-bottom: 15px; border-bottom: 2px double #0284c7; padding-bottom: 8px; }
         .lith-header h1 { margin: 0; color: #0f172a; font-size: 24px; font-weight: bold; line-height: 1.2; }
         .lith-header h2 { margin: 4px 0 0 0; color: #475569; font-size: 15px; font-weight: normal; }
         
-        .lith-columns { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
-        .column { display: flex; flex-direction: column; gap: 10px; }
+        /* Columns Responsive කිරීම (දුරකථන වලදී එක පෙළට වැටේ) */
+        .lith-columns { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; }
+        .column { display: flex; flex-direction: column; gap: 15px; }
         
         .month-section { border: 1px solid #64748b; border-radius: 4px; overflow: hidden; background: #fff; }
         .month-title { background: #cbd5e1; color: #0f172a; padding: 6px; font-size: 13px; font-weight: bold; text-align: center; border-bottom: 1px solid #64748b; }
         
-        table { width: 100%; border-collapse: collapse; font-size: 10.5px; }
-        th, td { border: 1px solid #94a3b8; padding: 4px 2px; text-align: center; }
-        th { background-color: #f1f5f9; font-weight: bold; color: #1e293b; font-size: 9.5px; }
+        table { width: 100%; border-collapse: collapse; font-size: 11px; }
+        th, td { border: 1px solid #94a3b8; padding: 5px 2px; text-align: center; }
+        th { background-color: #f1f5f9; font-weight: bold; color: #1e293b; font-size: 10px; }
         
         .col-date { font-weight: bold; color: #000; background-color: #f1f5f9; }
         .col-twilight { background-color: #fef2f2; color: #dc2626; }
@@ -47,7 +54,7 @@
         .col-sunrise { background-color: #fef3c7; color: #d97706; font-weight: bold; }
         .col-noon { background-color: #f0fdf4; color: #16a34a; }
 
-        .lith-footer { margin-top: 25px; border-top: 1px dashed #64748b; padding-top: 10px; font-size: 11px; color: #475569; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .lith-footer { margin-top: 25px; border-top: 1px dashed #64748b; padding-top: 10px; font-size: 12px; color: #475569; text-align: center; line-height: 1.6; }
     </style>
 </head>
 <body>
@@ -91,6 +98,7 @@
         <button class="btn-dl" id="btnDownload" onclick="downloadAsJPG()">🖼️ Download as JPG</button>
     </div>
 
+    <!-- 📱 කැලැන්ඩරය දර්ශනය වන කොටස -->
     <div class="lith-container" id="lithContainer">
         <div class="lith-header">
             <h1 id="mainTitle">Solar Dawn & Noon</h1>
@@ -107,8 +115,7 @@
     </div>
 
 <script>
-
-const AstronomyEngine = {
+    const AstronomyEngine = {
         getJulianDate: function(year, month, day, hour = 12, minute = 0, second = 0) {
             if (month <= 2) { year -= 1; month += 12; }
             let A = Math.floor(year / 100);
@@ -160,7 +167,6 @@ const AstronomyEngine = {
                 let H_civil = Math.acos(cosH_civil) * 180 / Math.PI;
                 civilMins = solNoonMinutes - (H_civil * 4);
             }
-
 
             let customDawnMins = sunriseMins - twiOffset; 
 
@@ -274,7 +280,6 @@ const AstronomyEngine = {
                         </thead>
                         <tbody>`;
             
-            // මුලින්ම පිරිසිදු ලෙස Sunrise මත පමණක් Compress කර බැලීම
             let tempGroup = null;
             let firstPassRows = [];
             
@@ -292,7 +297,6 @@ const AstronomyEngine = {
 
             let compressedRows = [];
             
-
             if (firstPassRows.length < 10) {
                 let chunkGroup = null;
                 monthlyDataStructure[m].forEach((row, index) => {
@@ -331,7 +335,7 @@ const AstronomyEngine = {
 
         let gmtPrefix = zone >= 0 ? "+" : "";
         document.getElementById('lithFooter').innerHTML = `
-            <strong>${data.footerLoc}:</strong> ${locName} &nbsp;|&nbsp; <strong>${data.footerYear}:</strong> ${year} &nbsp;|&nbsp; <strong>${data.footerLat}:</strong> ${lat}° &nbsp;|&nbsp; <strong>${data.footerLon}:</strong> ${lon}° &nbsp;|&nbsp; <strong>${data.footerGmt}:</strong> GMT ${gmtPrefix}${zone}
+            <strong>${data.footerLoc}:</strong> ${locName} &nbsp;|&nbsp; <strong>${data.footerYear}:</strong> ${year} <br> <strong>${data.footerLat}:</strong> ${lat}° &nbsp;|&nbsp; <strong>${data.footerLon}:</strong> ${lon}° &nbsp;|&nbsp; <strong>${data.footerGmt}:</strong> GMT ${gmtPrefix}${zone}
         `;
         document.getElementById('lithContainer').style.display = "block";
         document.getElementById('btnDownload').style.display = "inline-block";
@@ -339,26 +343,15 @@ const AstronomyEngine = {
 
     function downloadAsJPG() {
         const target = document.getElementById('lithContainer');
-        const mainTitle = document.getElementById('mainTitle');
         
-        const originalStyle = target.style.cssText;
-        const originalTitleStyle = mainTitle.style.cssText;
-        
-
-        target.style.cssText += 'width: 840px !important; min-width: 840px !important; max-width: 840px !important; display: block !important;';
-        mainTitle.style.cssText += 'font-size: 24px !important; max-width: 800px !important; margin: 0 auto !important;';
-
         html2canvas(target, {
-            scale: 2.5, 
+            scale: 2, 
             useCORS: true,
             backgroundColor: "#ffffff",
             logging: false,
-            windowWidth: 840 
+            windowWidth: 1024 // පින්තූරය ගන්නා අවස්ථාවේදී පමණක් ස්ථාවර පළලක් අනුගමනය කරයි
         }).then(canvas => {
-            target.style.cssText = originalStyle;
-            mainTitle.style.cssText = originalTitleStyle;
-
-            const jpgUrl = canvas.toDataURL('image/jpeg', 0.98);
+            const jpgUrl = canvas.toDataURL('image/jpeg', 0.95);
             const downloadLink = document.createElement('a');
             downloadLink.href = jpgUrl;
             downloadLink.download = `Solar_Calendar_${document.getElementById('locationName').value || 'Unknown'}.jpg`;
@@ -366,38 +359,26 @@ const AstronomyEngine = {
             downloadLink.click();
             document.body.removeChild(downloadLink);
         }).catch(err => {
-            target.style.cssText = originalStyle;
-            mainTitle.style.cssText = originalTitleStyle;
             console.error("බාගත කිරීමේ දෝෂයක්:", err);
             alert("කරුණාකර නැවත උත්සාහ කරන්න.");
         });
-        if ('serviceWorker' in navigator) {
-
-  window.addEventListener('load', async () => {
-
-    try {
-
-      const reg =
-        await navigator.serviceWorker.register('./sw.js');
-
-      console.log('Service Worker Registered');
-
-      navigator.serviceWorker.addEventListener(
-        'controllerchange',
-        () => {
-          window.location.reload();
-        }
-      );
-
-    } catch (err) {
-
-      console.error('SW Error:', err);
-
     }
 
-  });
-    }  
- }
+    // 📱 Service Worker
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', async () => {
+            try {
+                const reg = await navigator.serviceWorker.register('./sw.js');
+                console.log('Service Worker Registered Successfully');
+                
+                navigator.serviceWorker.addEventListener('controllerchange', () => {
+                    window.location.reload();
+                });
+            } catch (err) {
+                console.error('SW Registration Error:', err);
+            }
+        });
+    }
 </script>
 </body>
 </html>
