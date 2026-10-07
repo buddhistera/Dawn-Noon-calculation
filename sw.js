@@ -1,4 +1,4 @@
-const CACHE_NAME = 'Dawn-Noon-calculator-v2';
+const CACHE_NAME = 'Dawn-Noon-calculator-v3';
 
 // 1. Offline වැඩ කිරීමට නම් ඇප් එකට අත්‍යවශ්‍යම සියලුම ලිපිනයන් (HTML, CSS, Icons) මුලින්ම Cache කළ යුතුය.
 const CACHE_ASSETS = [
