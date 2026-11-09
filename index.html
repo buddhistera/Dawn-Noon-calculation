@@ -1,92 +1,244 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="classic" data-tstyle="grid">
 <head>
     <meta charset="UTF-8">
     <title>Annual Solar Calendar</title>
-    
+
     <!-- 📱 Manifest ගොනුව සම්බන්ධ කිරීම -->
     <link rel="manifest" href="./manifest.json">
     <meta name="theme-color" content="#d4af37">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
 
     <!-- 🖼️ html2canvas පුස්තකාලය -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 15px; background: #f0f4f8; color: #1e293b; margin: 0; }
-        .controls { background: #ffffff; padding: 20px; border-radius: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin-bottom: 25px; }
-               
-        .notice-bar { background-color: #fef2f2; color: #dc2626; font-weight: bold; border-left: 6px solid #dc2626; padding: 15px; margin-bottom: 20px; border-radius: 6px; font-size: 15px; line-height: 1.5; }
-        
+        /* ================= 🎨 වර්ණ තේමා (Color Themes) ================= */
+        :root, [data-theme="classic"] {
+            --page-bg:#f0f4f8; --text:#1e293b; --card-bg:#ffffff; --card-shadow:0 4px 12px rgba(0,0,0,0.1);
+            --input-bg:#ffffff; --input-border:#cbd5e1; --label:#0f172a;
+            --accent:#0284c7; --accent-hover:#0369a1; --accent-text:#ffffff;
+            --notice-bg:#fef2f2; --notice-text:#dc2626; --notice-border:#dc2626;
+            --cal-bg:#ffffff; --cal-title:#0f172a; --cal-sub:#475569; --cal-rule:#0284c7;
+            --month-border:#64748b; --month-title-bg:#e2e8f0; --month-title-text:#0f172a; --stripe:#e6ecf3;
+            --th-bg:#f1f5f9; --th-text:#1e293b; --cell-border:#94a3b8; --cell-text:#000000;
+            --c-date:#f1f5f9; --c-twi:#fef2f2; --c-civil:#fffbeb; --c-sun:#fef3c7; --c-noon:#f0fdf4;
+            --footer-text:#475569;
+        }
+        [data-theme="saffron"] {
+            --page-bg:#fbf6ec; --text:#3b1d0e; --card-bg:#fffdf8; --input-border:#e0c79a; --label:#4a1d0a;
+            --accent:#b45309; --accent-hover:#92400e;
+            --notice-bg:#fff3e0; --notice-text:#9a3412; --notice-border:#c2410c;
+            --cal-bg:#fffdf8; --cal-title:#7c2d12; --cal-sub:#9a3412; --cal-rule:#b45309;
+            --month-border:#9a6b2f; --month-title-bg:#fbe3bd; --month-title-text:#7c2d12; --stripe:#fbe8c8;
+            --th-bg:#fdecc8; --th-text:#4a1d0a; --cell-border:#d4b483; --cell-text:#2a1306;
+            --c-date:#fdecc8; --c-twi:#fde4cf; --c-civil:#fff3dc; --c-sun:#fde68a; --c-noon:#fefae8;
+            --footer-text:#7c2d12;
+        }
+        [data-theme="ocean"] {
+            --page-bg:#eef4fb; --text:#0f1e3d; --card-bg:#ffffff; --input-border:#bfd3f2; --label:#0f1e3d;
+            --accent:#1d4ed8; --accent-hover:#1e40af;
+            --notice-bg:#eff6ff; --notice-text:#1e40af; --notice-border:#1d4ed8;
+            --cal-bg:#ffffff; --cal-title:#1e3a8a; --cal-sub:#1e40af; --cal-rule:#1d4ed8;
+            --month-border:#3b6fd8; --month-title-bg:#d6e4fa; --month-title-text:#1e3a8a; --stripe:#e1ebfb;
+            --th-bg:#dbeafe; --th-text:#0f1e3d; --cell-border:#9fbbe8; --cell-text:#0a1530;
+            --c-date:#dbeafe; --c-twi:#e0e7ff; --c-civil:#e0f2fe; --c-sun:#fef9c3; --c-noon:#ecfeff;
+            --footer-text:#1e3a8a;
+        }
+        [data-theme="forest"] {
+            --page-bg:#eff6f0; --text:#10261a; --card-bg:#ffffff; --input-border:#b9d8c2; --label:#10261a;
+            --accent:#15803d; --accent-hover:#166534;
+            --notice-bg:#f0fdf4; --notice-text:#166534; --notice-border:#15803d;
+            --cal-bg:#ffffff; --cal-title:#14532d; --cal-sub:#166534; --cal-rule:#15803d;
+            --month-border:#2f7a4a; --month-title-bg:#d3eedb; --month-title-text:#14532d; --stripe:#e0f2e6;
+            --th-bg:#dcfce7; --th-text:#10261a; --cell-border:#9cc9aa; --cell-text:#0a1f12;
+            --c-date:#dcfce7; --c-twi:#ecfccb; --c-civil:#f0fdf4; --c-sun:#fef9c3; --c-noon:#d1fae5;
+            --footer-text:#14532d;
+        }
+        [data-theme="lotus"] {
+            --page-bg:#fbf1f8; --text:#3b0d3a; --card-bg:#ffffff; --input-border:#e8bfe3; --label:#3b0d3a;
+            --accent:#a21caf; --accent-hover:#86198f;
+            --notice-bg:#fdf4ff; --notice-text:#86198f; --notice-border:#a21caf;
+            --cal-bg:#ffffff; --cal-title:#701a75; --cal-sub:#86198f; --cal-rule:#a21caf;
+            --month-border:#a855b7; --month-title-bg:#f6dbf3; --month-title-text:#701a75; --stripe:#f7e3f4;
+            --th-bg:#fae8ff; --th-text:#3b0d3a; --cell-border:#dcaee0; --cell-text:#2a0828;
+            --c-date:#fae8ff; --c-twi:#fce7f3; --c-civil:#fdf4ff; --c-sun:#fef3c7; --c-noon:#f5f3ff;
+            --footer-text:#701a75;
+        }
+        [data-theme="night"] {
+            --page-bg:#0b1120; --text:#e2e8f0; --card-bg:#1e293b; --card-shadow:0 4px 12px rgba(0,0,0,0.5);
+            --input-bg:#0f172a; --input-border:#334155; --label:#e2e8f0;
+            --accent:#f59e0b; --accent-hover:#d97706; --accent-text:#111827;
+            --notice-bg:#2a1414; --notice-text:#fca5a5; --notice-border:#ef4444;
+            --cal-bg:#111827; --cal-title:#fbbf24; --cal-sub:#cbd5e1; --cal-rule:#f59e0b;
+            --month-border:#4b5563; --month-title-bg:#283244; --month-title-text:#fbbf24; --stripe:#1c2638;
+            --th-bg:#1f2937; --th-text:#e5e7eb; --cell-border:#4b5563; --cell-text:#f8fafc;
+            --c-date:#1f2937; --c-twi:#3b1d2a; --c-civil:#33290f; --c-sun:#4a3a0b; --c-noon:#12321f;
+            --footer-text:#cbd5e1;
+        }
+        [data-theme="bw"] {
+            --page-bg:#ffffff; --text:#000000; --card-bg:#ffffff; --card-shadow:0 0 0 2px #000;
+            --input-bg:#ffffff; --input-border:#000000; --label:#000000;
+            --accent:#000000; --accent-hover:#333333; --accent-text:#ffffff;
+            --notice-bg:#ffffff; --notice-text:#000000; --notice-border:#000000;
+            --cal-bg:#ffffff; --cal-title:#000000; --cal-sub:#000000; --cal-rule:#000000;
+            --month-border:#000000; --month-title-bg:#e5e5e5; --month-title-text:#000000; --stripe:#e8e8e8;
+            --th-bg:#ffffff; --th-text:#000000; --cell-border:#000000; --cell-text:#000000;
+            --c-date:#ffffff; --c-twi:#ffffff; --c-civil:#ffffff; --c-sun:#ffffff; --c-noon:#ffffff;
+            --footer-text:#000000;
+        }
+
+        /* ================= පොදු සැකසුම් ================= */
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, 'Noto Sans', 'Noto Sans Sinhala', 'Iskoola Pota',
+                         'Myanmar Text', 'Noto Sans Myanmar', 'Leelawadee UI', 'Khmer UI', 'Nirmala UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 15px; background: var(--page-bg); color: var(--text); margin: 0;
+        }
+
+        .topbar { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: flex-end; justify-content: space-between; margin-bottom: 15px; }
+        .topbar label { flex: 0 1 260px; min-width: 180px; }
+        .theme-box { display: flex; flex-direction: column; gap: 6px; font-weight: bold; font-size: 14px; color: var(--label); }
+        .swatches { display: flex; gap: 8px; flex-wrap: wrap; }
+        .swatch { width: 34px; height: 34px; padding: 0; border-radius: 50%; border: 2px solid var(--input-border); cursor: pointer; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+        .swatch.active { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+        .controls { background: var(--card-bg); padding: 20px; border-radius: 14px; box-shadow: var(--card-shadow); margin-bottom: 25px; }
+        .notice-bar { background-color: var(--notice-bg); color: var(--notice-text); font-weight: bold; border-left: 6px solid var(--notice-border); padding: 15px; margin-bottom: 20px; border-radius: 6px; font-size: 15px; line-height: 1.5; }
+
         .input-group { display: flex; flex-wrap: wrap; gap: 15px; align-items: flex-end; }
-        label { font-weight: bold; font-size: 14px; display: flex; flex-direction: column; gap: 6px; color: #0f172a; flex: 1; min-width: 200px; }
-        input, select { padding: 10px 14px; font-size: 15px; border: 2px solid #cbd5e1; border-radius: 8px; width: 100%; box-sizing: border-box; transition: border-color 0.2s; background-color: #fff; }
-        input:focus, select:focus { border-color: #0284c7; outline: none; }
-        
-        button { padding: 12px 24px; font-size: 16px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: all 0.2s; }
-        .btn-gen { background: #0284c7; color: white; }
-        .btn-gen:hover { background: #0369a1; }
-        .btn-lang { background: #475569; color: white; margin-bottom: 15px; }
-        .btn-lang:hover { background: #334155; }
-        
+        label { font-weight: bold; font-size: 14px; display: flex; flex-direction: column; gap: 6px; color: var(--label); flex: 1; min-width: 200px; }
+        input, select { padding: 10px 14px; font-size: 15px; border: 2px solid var(--input-border); border-radius: 8px; width: 100%; box-sizing: border-box; transition: border-color 0.2s; background-color: var(--input-bg); color: var(--text); font-family: inherit; }
+        input:focus, select:focus { border-color: var(--accent); outline: none; }
+
+        button, .btn-link { padding: 12px 24px; font-size: 16px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: all 0.2s; font-family: inherit; text-decoration: none; display: inline-block; }
+        .btn-gen { background: var(--accent); color: var(--accent-text); }
+        .btn-gen:hover { background: var(--accent-hover); }
         .btn-dl { background: #10b981; color: white; display: none; margin: 10px auto 25px auto; }
         .btn-dl:hover { background: #059669; }
+        .btn-dl:disabled { opacity: 0.7; cursor: wait; }
+        [data-theme="bw"] .btn-dl { background: #000; }
 
-        /* 📱 Flexible Container - ඕනෑම Screen එකකට ගැලපෙන ලෙස සකසා ඇත */
-        .lith-container { background: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); display: none; width: 100%; max-width: 1200px; margin: 0 auto; box-sizing: border-box; }
-        .lith-header { text-align: center; margin-bottom: 15px; border-bottom: 2px double #0284c7; padding-bottom: 8px; }
-        .lith-header h1 { margin: 0; color: #0f172a; font-size: 24px; font-weight: bold; line-height: 1.2; }
-        .lith-header h2 { margin: 4px 0 0 0; color: #475569; font-size: 15px; font-weight: normal; }
-        
-        /* Columns Responsive කිරීම (දුරකථන වලදී එක පෙළට වැටේ) */
-        .lith-columns { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; }
-        .column { display: flex; flex-direction: column; gap: 15px; }
-        
-        .month-section { border: 1px solid #64748b; border-radius: 4px; overflow: hidden; background: #fff; }
-        .month-title { background: #cbd5e1; color: #0f172a; padding: 6px; font-size: 13px; font-weight: bold; text-align: center; border-bottom: 1px solid #64748b; }
-        
-        table { width: 100%; border-collapse: collapse; font-size: 11px; }
-        th, td { border: 1px solid #94a3b8; padding: 5px 2px; text-align: center; }
-        th { background-color: #f1f5f9; font-weight: bold; color: #1e293b; font-size: 10px; }
-        
-        .col-date { font-weight: bold; color: #000; background-color: #f1f5f9; }
-        .col-twilight { background-color: #fef2f2; color: #000000; 
-    font-weight: bold;  }
-        .col-civil { background-color: #fffbeb; color: #000000; 
-    font-weight: bold;  }
-        .col-sunrise { background-color: #fef3c7; color: #000000; 
-    font-weight: bold; }
-        .col-noon { background-color: #f0fdf4; color: #000000; 
-    font-weight: bold; }
+        /* ================= 📅 දින දර්ශනය ================= */
+        .lith-container { --cols: 3; --tfs: 11px; background: var(--cal-bg); padding: 20px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); display: none; width: 100%; max-width: 1200px; margin: 0 auto; box-sizing: border-box; }
+        .lith-container.cols-4 { max-width: 1400px; }
+        .lith-header { text-align: center; margin-bottom: 15px; border-bottom: 2px double var(--cal-rule); padding-bottom: 8px; }
+        .lith-header h1 { margin: 0; color: var(--cal-title); font-size: 24px; font-weight: bold; line-height: 1.25; }
+        .lith-header h2 { margin: 4px 0 0 0; color: var(--cal-sub); font-size: 15px; font-weight: normal; }
 
-        .lith-footer { 
-    margin-top: 25px; 
-    border-top: 1px dashed #64748b; 
-    padding-top: 10px; 
-    font-size: 11px; 
-    color: #475569; 
-    text-align: center; 
-    white-space: nowrap; 
-    overflow-x: auto; 
-}
+        .lith-columns { display: grid; grid-template-columns: repeat(var(--cols), minmax(0, 1fr)); gap: 15px; align-items: start; }
+        .column { display: flex; flex-direction: column; gap: 15px; min-width: 0; }
 
+        .month-section { border: 1px solid var(--month-border); border-radius: 4px; overflow: hidden; background: var(--cal-bg); }
+        .month-title { background: var(--month-title-bg); color: var(--month-title-text); padding: 0.45em; font-size: calc(var(--tfs) * 1.18); font-weight: bold; text-align: center; border-bottom: 1px solid var(--month-border); }
+
+        table { width: 100%; border-collapse: collapse; font-size: var(--tfs); table-layout: fixed; }
+        th, td { border: 1px solid var(--cell-border); padding: 0.42em 2px; text-align: center; }
+        th { background-color: var(--th-bg); font-weight: bold; color: var(--th-text); font-size: 0.9em; line-height: 1.2; word-break: break-word; }
+        td { white-space: nowrap; font-weight: bold; color: var(--cell-text); }
+
+        .col-date { background-color: var(--c-date); }
+        .col-twilight { background-color: var(--c-twi); }
+        .col-civil { background-color: var(--c-civil); }
+        .col-sunrise { background-color: var(--c-sun); }
+        .col-noon { background-color: var(--c-noon); }
+
+
+        /* ================= 🧾 වගු රටා (Table Styles) ================= */
+        /* 1. Grid = පෙරනිමි (ඉහත) */
+
+        /* 2. Striped — පේළි මාරුවෙන් මාරුවට පාට */
+        [data-tstyle="striped"] .lith-container th,
+        [data-tstyle="striped"] .lith-container td { border-left: none; border-right: none; }
+        [data-tstyle="striped"] .lith-container th { border-bottom: 2px solid var(--month-border); }
+        [data-tstyle="striped"] .lith-container td { background: var(--cal-bg); }
+        [data-tstyle="striped"] .lith-container tbody tr:nth-child(even) td { background: var(--stripe); }
+        [data-tstyle="striped"] .lith-container td.col-sunrise { color: var(--cal-title); }
+
+        /* 3. Minimal — පසුබිම් නැති, තිරස් රේඛා පමණි */
+        [data-tstyle="minimal"] .lith-container .month-section { border: none; border-radius: 0; }
+        [data-tstyle="minimal"] .lith-container .month-title { background: transparent; color: var(--cal-title); border-bottom: 2px solid var(--cal-rule); text-align: left; padding-left: 2px; }
+        [data-tstyle="minimal"] .lith-container th,
+        [data-tstyle="minimal"] .lith-container td { background: transparent; border: none; border-bottom: 1px dotted var(--cell-border); }
+        [data-tstyle="minimal"] .lith-container th { color: var(--cal-sub); border-bottom: 1px solid var(--cell-border); }
+        [data-tstyle="minimal"] .lith-container td { font-weight: 600; }
+        [data-tstyle="minimal"] .lith-container td.col-sunrise { color: var(--cal-title); font-weight: bold; }
+
+        /* 4. Soft Tiles — වටකුරු කාඩ්, සුදු පරතර සහිත මෘදු කැට */
+        [data-tstyle="soft"] .lith-container .month-section { border: none; border-radius: 10px; box-shadow: 0 1px 5px rgba(0,0,0,0.16); }
+        [data-tstyle="soft"] .lith-container .month-title { border-bottom: none; }
+        [data-tstyle="soft"] .lith-container th,
+        [data-tstyle="soft"] .lith-container td { border: 2px solid var(--cal-bg); }
+        [data-theme="bw"][data-tstyle="soft"] .lith-container td,
+        [data-theme="bw"][data-tstyle="soft"] .lith-container th { border: none; border-bottom: 1px solid #000; }
+
+        /* 5. Framed — තද රාමු, දිනය වෙන් කළ, පේළි 5න් 5ට රේඛා */
+        [data-tstyle="framed"] .lith-container .month-section { border: 2px solid var(--month-border); border-radius: 0; }
+        [data-tstyle="framed"] .lith-container .month-title { border-bottom: 2px solid var(--month-border); }
+        [data-tstyle="framed"] .lith-container th { border-bottom: 2px solid var(--month-border); }
+        [data-tstyle="framed"] .lith-container td { background: var(--cal-bg); }
+        [data-tstyle="framed"] .lith-container td.col-date { background: var(--th-bg); border-right: 2px solid var(--month-border); }
+        [data-tstyle="framed"] .lith-container td.col-sunrise { background: var(--c-sun); }
+        [data-tstyle="framed"] .lith-container tbody tr:nth-child(5n) td { border-bottom: 2px solid var(--month-border); }
+
+        .lith-footer { margin-top: 25px; border-top: 1px dashed var(--month-border); padding-top: 10px; font-size: 11px; color: var(--footer-text); text-align: center; line-height: 1.6; }
+
+        /* දුරකථන / ටැබ්ලට් සඳහා (තිරයේ පමණි — A4 රූපයට බලපාන්නේ නැත) */
+        @media (max-width: 1000px) { .lith-container:not(.a4) .lith-columns { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+        @media (max-width: 640px)  { .lith-container:not(.a4) .lith-columns { grid-template-columns: minmax(0, 1fr); } }
+
+        /* ================= 📄 A4 රූපය (export) ================= */
+        #exportStage { position: absolute; top: 0; left: -30000px; }
+        .lith-container.a4 { display: flex; flex-direction: column; width: 1240px; max-width: none; margin: 0; padding: 40px 36px 28px; border-radius: 0; box-shadow: none; }
+        .lith-container.a4 .lith-header h1 { font-size: 36px; }
+        .lith-container.a4 .lith-header h2 { font-size: 20px; }
+        .lith-container.a4 .lith-header { margin-bottom: 16px; padding-bottom: 10px; }
+        .lith-container.a4 .lith-columns { gap: 14px; }
+        .lith-container.a4 .column { gap: calc(var(--tfs) * 0.9); }
+        .lith-container.a4 .lith-footer { margin-top: auto; padding-top: 10px; font-size: 15px; }
+        .lith-container.a4 .lith-columns + .lith-footer { margin-top: auto; }
+        .lith-container.a4 .spacer { flex: 1 0 14px; }
+
+        /* ================= 💾 සුරැකීමේ කවුළුව (Save modal) ================= */
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.65); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 12px; box-sizing: border-box; }
+        .modal.open { display: flex; }
+        .modal-box { background: var(--card-bg); color: var(--text); border-radius: 14px; width: 100%; max-width: 560px; max-height: 94vh; overflow: auto; padding: 16px; box-sizing: border-box; }
+        .modal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 18px; }
+        .btn-x { background: transparent; color: var(--text); font-size: 22px; padding: 4px 10px; }
+        .modal-hint { font-size: 14px; line-height: 1.5; margin: 0 0 12px; }
+        .modal-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; }
+        .modal-actions > * { flex: 1 1 180px; text-align: center; }
+        .btn-file { background: #10b981; color: #fff; }
+        [data-theme="bw"] .btn-file { background: #000; }
+        .modal img { width: 100%; height: auto; display: block; border: 1px solid var(--input-border); -webkit-touch-callout: default; user-select: auto; }
     </style>
 </head>
 <body>
 
-    <button class="btn-lang" id="langBtn" onclick="toggleLanguage()">සිංහල</button>
+    <div class="topbar">
+        <label><span data-i18n="lblLang">Language</span>
+            <select id="langSelect" onchange="setLanguage(this.value)"></select>
+        </label>
+        <div class="theme-box">
+            <span data-i18n="lblTheme">Color Theme</span>
+            <div class="swatches" id="themeSwatches"></div>
+        </div>
+        <label><span data-i18n="lblStyle">Table Style</span>
+            <select id="styleSelect" onchange="setTableStyle(this.value)"></select>
+        </label>
+    </div>
 
     <div class="controls">
-        <div class="notice-bar" id="noticeText">
+        <div class="notice-bar" data-i18n="notice">
             ⚠️ Please enter your location name, coordinates, and Time Zone (GMT) accurately. Data will be generated specific to that location.
         </div>
 
         <div class="input-group">
-            <label id="lblLoc">Location Name: <input type="text" id="locationName" value="Unknown"></label>
-            <label id="lblLat">Latitude (Lat): <input type="number" id="lat" value="6.8878" step="0.0001"></label>
-            <label id="lblLon">Longitude (Lon): <input type="number" id="lon" value="79.9138" step="0.0001"></label>
-            <label id="lblYear">Year: <input type="number" id="yearSelect" value="2026" min="1900" max="2100"></label>
-            
-            <label id="lblZone">Time Zone: 
+            <label><span data-i18n="lblLoc">Location Name:</span> <input type="text" id="locationName" value="Unknown"></label>
+            <label><span data-i18n="lblLat">Latitude (Lat):</span> <input type="number" id="lat" value="6.8878" step="0.0001"></label>
+            <label><span data-i18n="lblLon">Longitude (Lon):</span> <input type="number" id="lon" value="79.9138" step="0.0001"></label>
+            <label><span data-i18n="lblYear">Year:</span> <input type="number" id="yearSelect" value="2026" min="1900" max="2100"></label>
+
+            <label><span data-i18n="lblZone">Time Zone:</span>
                 <select id="tzSelect">
                     <option value="-12">-12:00</option> <option value="-11">-11:00</option> <option value="-10">-10:00</option>
                     <option value="-9">-09:00</option> <option value="-8">-08:00 (PST)</option> <option value="-7">-07:00 (MST)</option>
@@ -95,16 +247,24 @@
                     <option value="0">00:00 (GMT/UTC)</option> <option value="1">+01:00 (CET)</option> <option value="2">+02:00</option>
                     <option value="3">+03:00</option> <option value="3.5">+03:30</option> <option value="4">+04:00</option>
                     <option value="4.5">+04:30</option> <option value="5">+05:00</option> <option value="5.5" selected>+05:30 (Sri Lanka/India)</option>
-                    <option value="5.75">+05:45</option> <option value="6">+06:00</option> <option value="6.5">+06:30</option>
-                    <option value="7">+07:00</option> <option value="8">+08:00 (Singapore/China)</option> <option value="9">+09:00 (Japan)</option>
+                    <option value="5.75">+05:45 (Nepal)</option> <option value="6">+06:00 (Bangladesh)</option> <option value="6.5">+06:30 (Myanmar)</option>
+                    <option value="7">+07:00 (Thailand/Laos/Cambodia/Vietnam)</option> <option value="8">+08:00 (Singapore/China)</option> <option value="9">+09:00 (Japan)</option>
                     <option value="9.5">+09:30</option> <option value="10">+10:00 (Australia AEST)</option> <option value="11">+11:00</option>
                     <option value="12">+12:00</option> <option value="13">+13:00</option>
                 </select>
             </label>
 
-            <label id="lblTwiMin">Dawn Offset Time (Minutes): <input type="number" id="twiMinutes" value="30" min="0" max="120"></label>
-            
-            <button class="btn-gen" id="btnGen" onclick="generateLith()">Generate Calendar</button>
+            <label><span data-i18n="lblTwiMin">Dawn Offset Time (Minutes):</span> <input type="number" id="twiMinutes" value="30" min="0" max="120"></label>
+
+            <label><span data-i18n="lblCols">Columns (A4):</span>
+                <select id="colsSelect" onchange="rerenderIfShown()">
+                    <option value="auto" data-i18n="optAuto">Auto</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>
+            </label>
+
+            <button class="btn-gen" data-i18n="btnGen" onclick="generateLith()">Generate Calendar</button>
         </div>
     </div>
 
@@ -113,22 +273,29 @@
     </div>
 
     <!-- 📱 කැලැන්ඩරය දර්ශනය වන කොටස -->
-    <div class="lith-container" id="lithContainer">
-        <div class="lith-header">
-            <h1 id="mainTitle">Solar Dawn & Noon</h1>
-            <h2 id="subTitle">Sunrise and Solar Noon Times</h2>
-        </div>
-        
-        <div class="lith-columns">
-            <div class="column" id="col1"></div>
-            <div class="column" id="col2"></div>
-            <div class="column" id="col3"></div>
-        </div>
+    <div class="lith-container" id="lithContainer"></div>
 
-        <div class="lith-footer" id="lithFooter"></div>
+    <!-- 📄 A4 රූපය සකසන සැඟවුණු ස්ථානය -->
+    <div id="exportStage" aria-hidden="true"></div>
+
+    <!-- 💾 iPhone / ජංගම දුරකථන සඳහා සුරැකීමේ කවුළුව -->
+    <div class="modal" id="saveModal" onclick="if(event.target===this) closeSaveModal()">
+        <div class="modal-box">
+            <div class="modal-head">
+                <strong data-i18n="saveTitle">Save Image</strong>
+                <button class="btn-x" onclick="closeSaveModal()" aria-label="Close">✕</button>
+            </div>
+            <p class="modal-hint" data-i18n="saveHint"></p>
+            <div class="modal-actions">
+                <button class="btn-gen" id="btnShare" data-i18n="btnShare" onclick="shareImage()" style="display:none;">📤 Share / Save</button>
+                <a class="btn-link btn-file" id="btnFile" data-i18n="btnFile" href="#" download="calendar.jpg">⬇️ Download File</a>
+            </div>
+            <img id="previewImg" alt="Solar calendar">
+        </div>
     </div>
 
 <script>
+    /* ===================== 🔭 තාරකා විද්‍යා ගණනය (වෙනසක් නැත) ===================== */
     const AstronomyEngine = {
         getJulianDate: function(year, month, day, hour = 12, minute = 0, second = 0) {
             if (month <= 2) { year -= 1; month += 12; }
@@ -148,27 +315,26 @@
             let sunTrueLong = L0 + C;
             let sunAppLong = (sunTrueLong - 0.00569 - 0.00478 * Math.sin((125.04 - 1934.136 * T) * Math.PI / 180)) * Math.PI / 180;
             let obliq = (23.439291 - T * (46.836769 / 3600)) * Math.PI / 180;
-            
+
             let dec = Math.asin(Math.sin(obliq) * Math.sin(sunAppLong)) * 180 / Math.PI;
             let ra = Math.atan2(Math.cos(obliq) * Math.sin(sunAppLong), Math.cos(sunAppLong)) * 180 / Math.PI;
             if (ra < 0) ra += 360;
-            
+
             let y = Math.tan(obliq / 2) * Math.tan(obliq / 2);
             let eqt = 4 * (y * Math.sin(2 * L0 * Math.PI / 180) - 2 * e * Math.sin(M) + 4 * e * y * Math.sin(M) * Math.cos(2 * L0 * Math.PI / 180) - 0.5 * y * y * Math.sin(4 * L0 * Math.PI / 180) - 1.25 * e * e * Math.sin(2 * M)) * 180 / Math.PI;
-            
+
             return { declination: dec, rightAscension: ra, eqTime: eqt };
         },
         calculateDay: function(year, month, day, lat, lon, zone, twiOffset) {
             let jdNoon = this.getJulianDate(year, month, day, 12, 0, 0) - (lon / 360);
             let sunNoon = this.getSolarPosition(jdNoon);
-            
+
             let solNoonMinutes = 720 - (4 * lon) - sunNoon.eqTime + (zone * 60);
-            
+
             let latRad = lat * Math.PI / 180;
             let decRad = sunNoon.declination * Math.PI / 180;
-            
 
-            let altRadSunrise = -0.833 * Math.PI / 180; 
+            let altRadSunrise = -0.833 * Math.PI / 180;
             let cosH_sun = (Math.sin(altRadSunrise) - Math.sin(latRad) * Math.sin(decRad)) / (Math.cos(latRad) * Math.cos(decRad));
             if (cosH_sun > 1 || cosH_sun < -1) return null;
             let H_sun = Math.acos(cosH_sun) * 180 / Math.PI;
@@ -182,7 +348,7 @@
                 civilMins = solNoonMinutes - (H_civil * 4);
             }
 
-            let customDawnMins = sunriseMins - twiOffset; 
+            let customDawnMins = sunriseMins - twiOffset;
 
             return {
                 twilight: formatMins(customDawnMins),
@@ -201,183 +367,562 @@
         return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
     }
 
-    let currentLang = "en"; 
-    let monthlyDataStructure = {}; 
-
+    /* ===================== 🌐 භාෂා (Languages) ===================== */
     const langData = {
         si: {
+            name: "සිංහල", htmlLang: "si", titleSep: " ",
             notice: "⚠️ කරුණාකර ඔබ සිටින ස්ථානයේ නම, කණ්ඩාංක සහ වේලා කලාපය (GMT) නිවැරදිව ඇතුළත් කරන්න. එවිට එම ස්ථානයට අදාළව දත්ත නිවැරදිව ජනනය වේ.",
+            lblLang: "භාෂාව", lblTheme: "වර්ණ තේමාව", lblStyle: "වගු රටාව",
+            styles: ["කොටු දැල", "පේළි ඉරි", "සරල", "මෘදු කැට", "රාමු සහිත"],
             lblLoc: "ප්‍රදේශයේ නම:", lblLat: "අක්ෂාංශ (Lat):", lblLon: "දේශාංශ (Lon):", lblYear: "වර්ෂය:",
             lblZone: "වේලා කලාපය (Time Zone):", lblTwiMin: "අරුණෝදය සඳහා අඩු කළ යුතු කාලය (මිනිත්තු):",
+            lblCols: "තීරු ගණන (A4):", optAuto: "ස්වයංක්‍රීය",
             btnGen: "සටහන සාදන්න", titleSuf: "ප්‍රදේශයේ අරුණෝද්ගමනය", subTitle: "ඉර උදාවීම හා මධ්‍යහ්නය",
             thDate: "දිනය", thTwi: "විනය අරුණෝදය", thCivil: "සිවිල් අරුණෝදය", thSun: "☀️ උදාව", thNoon: "🔆 මධ්‍යහ්නය",
             footerLoc: "ස්ථානය", footerYear: "වර්ෂය", footerLat: "අක්ෂාංශ", footerLon: "දේශාංශ", footerGmt: "වේලා කලාපය",
-            btnDl: "🖼️ JPG ලෙස බාගත කරන්න",
+            btnDl: "🖼️ JPG ලෙස බාගත කරන්න", preparing: "⏳ සකසමින්...",
+            saveTitle: "රූපය සුරකින්න",
+            saveHint: "iPhone / iPad: පහත රූපය මත ඇඟිල්ල තදකර තබාගෙන “Save to Photos” (ඡායාරූපවලට සුරකින්න) තෝරන්න. නැතහොත් “බෙදාගන්න / සුරකින්න” බොත්තම ඔබන්න.",
+            btnShare: "📤 බෙදාගන්න / සුරකින්න", btnFile: "⬇️ ගොනුව බාගන්න",
             months: ["ජනවාරි", "පෙබරවාරි", "මාර්තු", "අප්‍රේල්", "මැයි", "ජුනි", "ජූලි", "අගෝස්තු", "සැප්තැම්බර්", "ඔක්තෝම්බර්", "නොවැම්බර්", "දෙසැම්බර්"]
         },
         en: {
+            name: "English", htmlLang: "en", titleSep: " - ",
             notice: "⚠️ Please enter your location name, coordinates, and Time Zone (GMT) accurately. Data will be generated specific to that location.",
+            lblLang: "Language", lblTheme: "Color Theme", lblStyle: "Table Style",
+            styles: ["Grid", "Striped", "Minimal", "Soft Tiles", "Framed"],
             lblLoc: "Location Name:", lblLat: "Latitude (Lat):", lblLon: "Longitude (Lon):", lblYear: "Year:",
             lblZone: "Time Zone:", lblTwiMin: "Dawn Offset Time (Minutes):",
+            lblCols: "Columns (A4):", optAuto: "Auto",
             btnGen: "Generate Calendar", titleSuf: "Solar Dawn & Noon", subTitle: "Sunrise and Solar Noon Times",
             thDate: "Date", thTwi: "Dawn", thCivil: "Civil Twilight", thSun: "☀️ Sunrise", thNoon: "🔆 Noon",
             footerLoc: "Location", footerYear: "Year", footerLat: "Lat", footerLon: "Lon", footerGmt: "Time Zone",
-            btnDl: "🖼️ Download as JPG",
+            btnDl: "🖼️ Download as JPG", preparing: "⏳ Preparing…",
+            saveTitle: "Save Image",
+            saveHint: "iPhone / iPad: touch and hold the image below, then choose “Save to Photos”. Or tap “Share / Save”.",
+            btnShare: "📤 Share / Save", btnFile: "⬇️ Download File",
             months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+        },
+        my: {
+            name: "မြန်မာ", htmlLang: "my", titleSep: " - ",
+            notice: "⚠️ သင့်တည်နေရာအမည်၊ ကိုဩဒိနိတ်များနှင့် စံတော်ချိန်ဇုန် (GMT) ကို မှန်ကန်စွာ ထည့်သွင်းပါ။ ထိုနေရာအတွက် သီးသန့် အချက်အလက်များကို ထုတ်ပေးပါမည်။",
+            lblLang: "ဘာသာစကား", lblTheme: "အရောင်ပုံစံ", lblStyle: "ဇယားပုံစံ",
+            styles: ["ကွက်လပ်", "အစင်း", "ရိုးရှင်း", "နူးညံ့အကွက်", "ဘောင်ခတ်"],
+            lblLoc: "နေရာအမည်:", lblLat: "လတ္တီတွဒ် (Lat):", lblLon: "လောင်ဂျီတွဒ် (Lon):", lblYear: "ခုနှစ်:",
+            lblZone: "စံတော်ချိန်ဇုန် (Time Zone):", lblTwiMin: "အရုဏ်အတွက် နုတ်ရမည့်အချိန် (မိနစ်):",
+            lblCols: "ကော်လံ (A4):", optAuto: "အလိုအလျောက်",
+            btnGen: "ပြက္ခဒိန် ထုတ်ရန်", titleSuf: "အရုဏ်နှင့် မွန်းတည့်ချိန်", subTitle: "နေထွက်ချိန်နှင့် မွန်းတည့်ချိန်များ",
+            thDate: "ရက်", thTwi: "ဝိနည်းအရုဏ်", thCivil: "အရပ်ဘက်အရုဏ်", thSun: "☀️ နေထွက်", thNoon: "🔆 မွန်းတည့်",
+            footerLoc: "နေရာ", footerYear: "ခုနှစ်", footerLat: "လတ္တီတွဒ်", footerLon: "လောင်ဂျီတွဒ်", footerGmt: "စံတော်ချိန်ဇုန်",
+            btnDl: "🖼️ JPG အဖြစ် ဒေါင်းလုဒ်လုပ်ရန်", preparing: "⏳ ပြင်ဆင်နေသည်…",
+            saveTitle: "ပုံကို သိမ်းရန်",
+            saveHint: "iPhone / iPad: အောက်ပါပုံကို ဖိထားပြီး “Save to Photos” ကို ရွေးပါ။ သို့မဟုတ် “မျှဝေ / သိမ်း” ကို နှိပ်ပါ။",
+            btnShare: "📤 မျှဝေ / သိမ်း", btnFile: "⬇️ ဖိုင် ဒေါင်းလုဒ်",
+            months: ["ဇန်နဝါရီ", "ဖေဖော်ဝါရီ", "မတ်", "ဧပြီ", "မေ", "ဇွန်", "ဇူလိုင်", "ဩဂုတ်", "စက်တင်ဘာ", "အောက်တိုဘာ", "နိုဝင်ဘာ", "ဒီဇင်ဘာ"]
+        },
+        th: {
+            name: "ไทย", htmlLang: "th", titleSep: " - ",
+            notice: "⚠️ กรุณากรอกชื่อสถานที่ พิกัด และเขตเวลา (GMT) ให้ถูกต้อง ข้อมูลจะถูกคำนวณเฉพาะสำหรับสถานที่นั้น",
+            lblLang: "ภาษา", lblTheme: "ธีมสี", lblStyle: "รูปแบบตาราง",
+            styles: ["ตาราง", "แถบสลับ", "เรียบง่าย", "ช่องนุ่มนวล", "มีกรอบ"],
+            lblLoc: "ชื่อสถานที่:", lblLat: "ละติจูด (Lat):", lblLon: "ลองจิจูด (Lon):", lblYear: "ปี:",
+            lblZone: "เขตเวลา (Time Zone):", lblTwiMin: "เวลาที่หักสำหรับอรุณ (นาที):",
+            lblCols: "จำนวนคอลัมน์ (A4):", optAuto: "อัตโนมัติ",
+            btnGen: "สร้างปฏิทิน", titleSuf: "เวลาอรุณและเที่ยงวัน", subTitle: "เวลาดวงอาทิตย์ขึ้นและเที่ยงสุริยะ",
+            thDate: "วันที่", thTwi: "อรุณ (วินัย)", thCivil: "สนธยาพลเรือน", thSun: "☀️ ตะวันขึ้น", thNoon: "🔆 เที่ยงวัน",
+            footerLoc: "สถานที่", footerYear: "ปี", footerLat: "ละติจูด", footerLon: "ลองจิจูด", footerGmt: "เขตเวลา",
+            btnDl: "🖼️ ดาวน์โหลดเป็น JPG", preparing: "⏳ กำลังเตรียม…",
+            saveTitle: "บันทึกรูปภาพ",
+            saveHint: "iPhone / iPad: แตะค้างที่รูปด้านล่าง แล้วเลือก “บันทึกลงในรูปภาพ” หรือแตะ “แชร์ / บันทึก”",
+            btnShare: "📤 แชร์ / บันทึก", btnFile: "⬇️ ดาวน์โหลดไฟล์",
+            months: ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"]
+        },
+        hi: {
+            name: "हिन्दी", htmlLang: "hi", titleSep: " - ",
+            notice: "⚠️ कृपया अपने स्थान का नाम, निर्देशांक और समय क्षेत्र (GMT) सही-सही दर्ज करें। डेटा उसी स्थान के अनुसार तैयार किया जाएगा।",
+            lblLang: "भाषा", lblTheme: "रंग थीम", lblStyle: "तालिका शैली",
+            styles: ["ग्रिड", "धारीदार", "सरल", "मुलायम खाने", "फ्रेमयुक्त"],
+            lblLoc: "स्थान का नाम:", lblLat: "अक्षांश (Lat):", lblLon: "देशांतर (Lon):", lblYear: "वर्ष:",
+            lblZone: "समय क्षेत्र (Time Zone):", lblTwiMin: "अरुणोदय के लिए घटाया जाने वाला समय (मिनट):",
+            lblCols: "कॉलम (A4):", optAuto: "स्वचालित",
+            btnGen: "कैलेंडर बनाएँ", titleSuf: "अरुणोदय एवं मध्याह्न", subTitle: "सूर्योदय और सौर मध्याह्न का समय",
+            thDate: "दिनांक", thTwi: "विनय अरुणोदय", thCivil: "नागरिक संधिप्रकाश", thSun: "☀️ सूर्योदय", thNoon: "🔆 मध्याह्न",
+            footerLoc: "स्थान", footerYear: "वर्ष", footerLat: "अक्षांश", footerLon: "देशांतर", footerGmt: "समय क्षेत्र",
+            btnDl: "🖼️ JPG के रूप में डाउनलोड करें", preparing: "⏳ तैयार हो रहा है…",
+            saveTitle: "चित्र सहेजें",
+            saveHint: "iPhone / iPad: नीचे दिए चित्र को दबाकर रखें और “Save to Photos” चुनें, या “साझा करें / सहेजें” दबाएँ।",
+            btnShare: "📤 साझा करें / सहेजें", btnFile: "⬇️ फ़ाइल डाउनलोड करें",
+            months: ["जनवरी", "फ़रवरी", "मार्च", "अप्रैल", "मई", "जून", "जुलाई", "अगस्त", "सितंबर", "अक्टूबर", "नवंबर", "दिसंबर"]
+        },
+        zhHans: {
+            name: "简体中文", htmlLang: "zh-Hans", titleSep: " - ",
+            notice: "⚠️ 请准确输入您所在地点的名称、经纬度坐标和时区（GMT），系统将生成该地点专属的数据。",
+            lblLang: "语言", lblTheme: "配色主题", lblStyle: "表格样式",
+            styles: ["网格", "斑马纹", "简约", "柔和方块", "边框"],
+            lblLoc: "地点名称：", lblLat: "纬度 (Lat)：", lblLon: "经度 (Lon)：", lblYear: "年份：",
+            lblZone: "时区 (Time Zone)：", lblTwiMin: "明相提前时间（分钟）：",
+            lblCols: "栏数 (A4)：", optAuto: "自动",
+            btnGen: "生成日历", titleSuf: "明相与正午时刻表", subTitle: "日出与太阳正午时间",
+            thDate: "日期", thTwi: "明相（律）", thCivil: "民用晨光", thSun: "☀️ 日出", thNoon: "🔆 正午",
+            footerLoc: "地点", footerYear: "年份", footerLat: "纬度", footerLon: "经度", footerGmt: "时区",
+            btnDl: "🖼️ 下载为 JPG", preparing: "⏳ 正在生成…",
+            saveTitle: "保存图片",
+            saveHint: "iPhone / iPad：长按下方图片并选择“存储到照片”，或点击“分享 / 保存”。",
+            btnShare: "📤 分享 / 保存", btnFile: "⬇️ 下载文件",
+            months: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"]
+        },
+        zhHant: {
+            name: "繁體中文", htmlLang: "zh-Hant", titleSep: " - ",
+            notice: "⚠️ 請準確輸入您所在地點的名稱、經緯度座標和時區（GMT），系統將產生該地點專屬的資料。",
+            lblLang: "語言", lblTheme: "配色主題", lblStyle: "表格樣式",
+            styles: ["網格", "斑馬紋", "簡約", "柔和方塊", "邊框"],
+            lblLoc: "地點名稱：", lblLat: "緯度 (Lat)：", lblLon: "經度 (Lon)：", lblYear: "年份：",
+            lblZone: "時區 (Time Zone)：", lblTwiMin: "明相提前時間（分鐘）：",
+            lblCols: "欄數 (A4)：", optAuto: "自動",
+            btnGen: "產生日曆", titleSuf: "明相與正午時刻表", subTitle: "日出與太陽正午時間",
+            thDate: "日期", thTwi: "明相（律）", thCivil: "民用晨光", thSun: "☀️ 日出", thNoon: "🔆 正午",
+            footerLoc: "地點", footerYear: "年份", footerLat: "緯度", footerLon: "經度", footerGmt: "時區",
+            btnDl: "🖼️ 下載為 JPG", preparing: "⏳ 正在產生…",
+            saveTitle: "儲存圖片",
+            saveHint: "iPhone / iPad：長按下方圖片並選擇「儲存到照片」，或點選「分享 / 儲存」。",
+            btnShare: "📤 分享 / 儲存", btnFile: "⬇️ 下載檔案",
+            months: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"]
+        },
+        km: {
+            name: "ខ្មែរ", htmlLang: "km", titleSep: " - ",
+            notice: "⚠️ សូមបញ្ចូលឈ្មោះទីតាំង កូអរដោនេ និងល្វែងម៉ោង (GMT) របស់អ្នកឱ្យបានត្រឹមត្រូវ។ ទិន្នន័យនឹងត្រូវបង្កើតសម្រាប់ទីតាំងនោះជាក់លាក់។",
+            lblLang: "ភាសា", lblTheme: "ពណ៌", lblStyle: "រចនាតារាង",
+            styles: ["ក្រឡា", "ឆ្នូត", "សាមញ្ញ", "ប្រអប់ទន់", "មានស៊ុម"],
+            lblLoc: "ឈ្មោះទីតាំង៖", lblLat: "រយៈទទឹង (Lat)៖", lblLon: "រយៈបណ្ដោយ (Lon)៖", lblYear: "ឆ្នាំ៖",
+            lblZone: "ល្វែងម៉ោង (Time Zone)៖", lblTwiMin: "ពេលដកសម្រាប់អរុណ (នាទី)៖",
+            lblCols: "ជួរឈរ (A4)៖", optAuto: "ស្វ័យប្រវត្តិ",
+            btnGen: "បង្កើតប្រតិទិន", titleSuf: "ពេលអរុណ និងថ្ងៃត្រង់", subTitle: "ពេលថ្ងៃរះ និងថ្ងៃត្រង់",
+            thDate: "ថ្ងៃទី", thTwi: "អរុណ (វិន័យ)", thCivil: "ព្រលឹមស៊ីវិល", thSun: "☀️ ថ្ងៃរះ", thNoon: "🔆 ថ្ងៃត្រង់",
+            footerLoc: "ទីតាំង", footerYear: "ឆ្នាំ", footerLat: "រយៈទទឹង", footerLon: "រយៈបណ្ដោយ", footerGmt: "ល្វែងម៉ោង",
+            btnDl: "🖼️ ទាញយកជា JPG", preparing: "⏳ កំពុងរៀបចំ…",
+            saveTitle: "រក្សាទុករូបភាព",
+            saveHint: "iPhone / iPad៖ ចុចសង្កត់លើរូបភាពខាងក្រោម ហើយជ្រើស “Save to Photos” ឬចុច “ចែករំលែក / រក្សាទុក”។",
+            btnShare: "📤 ចែករំលែក / រក្សាទុក", btnFile: "⬇️ ទាញយកឯកសារ",
+            months: ["មករា", "កុម្ភៈ", "មីនា", "មេសា", "ឧសភា", "មិថុនា", "កក្កដា", "សីហា", "កញ្ញា", "តុលា", "វិច្ឆិកា", "ធ្នូ"]
+        },
+        lo: {
+            name: "ລາວ", htmlLang: "lo", titleSep: " - ",
+            notice: "⚠️ ກະລຸນາໃສ່ຊື່ສະຖານທີ່, ພິກັດ ແລະ ເຂດເວລາ (GMT) ຂອງທ່ານໃຫ້ຖືກຕ້ອງ. ຂໍ້ມູນຈະຖືກສ້າງຂຶ້ນສະເພາະສຳລັບສະຖານທີ່ນັ້ນ.",
+            lblLang: "ພາສາ", lblTheme: "ສີ", lblStyle: "ຮູບແບບຕາຕະລາງ",
+            styles: ["ຕາຂ່າຍ", "ແຖບສະຫຼັບ", "ລຽບງ່າຍ", "ຊ່ອງອ່ອນ", "ມີຂອບ"],
+            lblLoc: "ຊື່ສະຖານທີ່:", lblLat: "ເສັ້ນຂະໜານ (Lat):", lblLon: "ເສັ້ນແວງ (Lon):", lblYear: "ປີ:",
+            lblZone: "ເຂດເວລາ (Time Zone):", lblTwiMin: "ເວລາທີ່ຫັກສຳລັບອາລຸນ (ນາທີ):",
+            lblCols: "ຖັນ (A4):", optAuto: "ອັດຕະໂນມັດ",
+            btnGen: "ສ້າງປະຕິທິນ", titleSuf: "ເວລາອາລຸນ ແລະ ທ່ຽງວັນ", subTitle: "ເວລາຕາເວັນຂຶ້ນ ແລະ ທ່ຽງວັນ",
+            thDate: "ວັນທີ", thTwi: "ອາລຸນ (ວິໄນ)", thCivil: "ແສງເຊົ້າ (ພົນລະເຮືອນ)", thSun: "☀️ ຕາເວັນຂຶ້ນ", thNoon: "🔆 ທ່ຽງວັນ",
+            footerLoc: "ສະຖານທີ່", footerYear: "ປີ", footerLat: "ເສັ້ນຂະໜານ", footerLon: "ເສັ້ນແວງ", footerGmt: "ເຂດເວລາ",
+            btnDl: "🖼️ ດາວໂຫຼດເປັນ JPG", preparing: "⏳ ກຳລັງກະກຽມ…",
+            saveTitle: "ບັນທຶກຮູບ",
+            saveHint: "iPhone / iPad: ກົດຄ້າງໄວ້ທີ່ຮູບດ້ານລຸ່ມ ແລ້ວເລືອກ “Save to Photos” ຫຼື ກົດ “ແບ່ງປັນ / ບັນທຶກ”.",
+            btnShare: "📤 ແບ່ງປັນ / ບັນທຶກ", btnFile: "⬇️ ດາວໂຫຼດໄຟລ໌",
+            months: ["ມັງກອນ", "ກຸມພາ", "ມີນາ", "ເມສາ", "ພຶດສະພາ", "ມິຖຸນາ", "ກໍລະກົດ", "ສິງຫາ", "ກັນຍາ", "ຕຸລາ", "ພະຈິກ", "ທັນວາ"]
+        },
+        bn: {
+            name: "বাংলা", htmlLang: "bn", titleSep: " - ",
+            notice: "⚠️ অনুগ্রহ করে আপনার স্থানের নাম, স্থানাঙ্ক এবং সময় অঞ্চল (GMT) সঠিকভাবে লিখুন। তথ্য সেই স্থানের জন্য নির্দিষ্টভাবে তৈরি হবে।",
+            lblLang: "ভাষা", lblTheme: "রঙের থিম", lblStyle: "টেবিলের ধরন",
+            styles: ["গ্রিড", "ডোরাকাটা", "সাধারণ", "কোমল ঘর", "ফ্রেমযুক্ত"],
+            lblLoc: "স্থানের নাম:", lblLat: "অক্ষাংশ (Lat):", lblLon: "দ্রাঘিমাংশ (Lon):", lblYear: "বছর:",
+            lblZone: "সময় অঞ্চল (Time Zone):", lblTwiMin: "অরুণোদয়ের জন্য বিয়োগ করার সময় (মিনিট):",
+            lblCols: "কলাম (A4):", optAuto: "স্বয়ংক্রিয়",
+            btnGen: "ক্যালেন্ডার তৈরি করুন", titleSuf: "অরুণোদয় ও মধ্যাহ্ন", subTitle: "সূর্যোদয় ও সৌর মধ্যাহ্নের সময়",
+            thDate: "তারিখ", thTwi: "বিনয় অরুণোদয়", thCivil: "নাগরিক ঊষা", thSun: "☀️ সূর্যোদয়", thNoon: "🔆 মধ্যাহ্ন",
+            footerLoc: "স্থান", footerYear: "বছর", footerLat: "অক্ষাংশ", footerLon: "দ্রাঘিমাংশ", footerGmt: "সময় অঞ্চল",
+            btnDl: "🖼️ JPG হিসেবে ডাউনলোড করুন", preparing: "⏳ প্রস্তুত হচ্ছে…",
+            saveTitle: "ছবি সংরক্ষণ",
+            saveHint: "iPhone / iPad: নিচের ছবিটি চেপে ধরে “Save to Photos” বেছে নিন, অথবা “শেয়ার / সংরক্ষণ” চাপুন।",
+            btnShare: "📤 শেয়ার / সংরক্ষণ", btnFile: "⬇️ ফাইল ডাউনলোড",
+            months: ["জানুয়ারি", "ফেব্রুয়ারি", "মার্চ", "এপ্রিল", "মে", "জুন", "জুলাই", "আগস্ট", "সেপ্টেম্বর", "অক্টোবর", "নভেম্বর", "ডিসেম্বর"]
+        },
+        vi: {
+            name: "Tiếng Việt", htmlLang: "vi", titleSep: " - ",
+            notice: "⚠️ Vui lòng nhập chính xác tên địa điểm, tọa độ và múi giờ (GMT). Dữ liệu sẽ được tạo riêng cho địa điểm đó.",
+            lblLang: "Ngôn ngữ", lblTheme: "Chủ đề màu", lblStyle: "Kiểu bảng",
+            styles: ["Lưới", "Sọc", "Tối giản", "Ô mềm", "Khung viền"],
+            lblLoc: "Tên địa điểm:", lblLat: "Vĩ độ (Lat):", lblLon: "Kinh độ (Lon):", lblYear: "Năm:",
+            lblZone: "Múi giờ (Time Zone):", lblTwiMin: "Thời gian trừ cho rạng đông (phút):",
+            lblCols: "Số cột (A4):", optAuto: "Tự động",
+            btnGen: "Tạo lịch", titleSuf: "Giờ Rạng Đông & Chính Ngọ", subTitle: "Giờ mặt trời mọc và giữa trưa",
+            thDate: "Ngày", thTwi: "Rạng đông (Luật)", thCivil: "Bình minh dân dụng", thSun: "☀️ Mặt trời mọc", thNoon: "🔆 Chính ngọ",
+            footerLoc: "Địa điểm", footerYear: "Năm", footerLat: "Vĩ độ", footerLon: "Kinh độ", footerGmt: "Múi giờ",
+            btnDl: "🖼️ Tải xuống JPG", preparing: "⏳ Đang chuẩn bị…",
+            saveTitle: "Lưu hình ảnh",
+            saveHint: "iPhone / iPad: chạm và giữ hình bên dưới rồi chọn “Lưu vào Ảnh”, hoặc nhấn “Chia sẻ / Lưu”.",
+            btnShare: "📤 Chia sẻ / Lưu", btnFile: "⬇️ Tải tệp",
+            months: ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"]
+        },
+        ja: {
+            name: "日本語", htmlLang: "ja", titleSep: " - ",
+            notice: "⚠️ 場所の名前、座標、タイムゾーン（GMT）を正確に入力してください。その場所に合わせたデータが作成されます。",
+            lblLang: "言語", lblTheme: "カラーテーマ", lblStyle: "表のスタイル",
+            styles: ["グリッド", "ストライプ", "シンプル", "ソフト", "枠線"],
+            lblLoc: "場所の名前：", lblLat: "緯度 (Lat)：", lblLon: "経度 (Lon)：", lblYear: "年：",
+            lblZone: "タイムゾーン：", lblTwiMin: "明相の差し引き時間（分）：",
+            lblCols: "列数 (A4)：", optAuto: "自動",
+            btnGen: "カレンダーを作成", titleSuf: "明相・南中時刻表", subTitle: "日の出と南中時刻",
+            thDate: "日付", thTwi: "明相（律）", thCivil: "市民薄明", thSun: "☀️ 日の出", thNoon: "🔆 南中",
+            footerLoc: "場所", footerYear: "年", footerLat: "緯度", footerLon: "経度", footerGmt: "タイムゾーン",
+            btnDl: "🖼️ JPGでダウンロード", preparing: "⏳ 作成中…",
+            saveTitle: "画像を保存",
+            saveHint: "iPhone / iPad：下の画像を長押しして「“写真”に保存」を選ぶか、「共有 / 保存」をタップしてください。",
+            btnShare: "📤 共有 / 保存", btnFile: "⬇️ ファイルをダウンロード",
+            months: ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"]
         }
     };
 
-    function toggleLanguage() {
-        currentLang = currentLang === "si" ? "en" : "si";
-        document.getElementById("langBtn").innerText = currentLang === "si" ? "English" : "සිංහල";
-        
-        const data = langData[currentLang];
-        document.getElementById("noticeText").innerText = data.notice;
-        document.getElementById("lblLoc").firstChild.textContent = data.lblLoc + " ";
-        document.getElementById("lblLat").firstChild.textContent = data.lblLat + " ";
-        document.getElementById("lblLon").firstChild.textContent = data.lblLon + " ";
-        document.getElementById("lblYear").firstChild.textContent = data.lblYear + " ";
-        document.getElementById("lblZone").firstChild.textContent = data.lblZone + " ";
-        document.getElementById("lblTwiMin").firstChild.textContent = data.lblTwiMin + " ";
-        document.getElementById("btnGen").innerText = data.btnGen;
-        document.getElementById("btnDownload").innerText = data.btnDl;
-        
-        if(document.getElementById('lithContainer').style.display === "block") {
-            generateLith(); 
+    /* ===================== 🎨 තේමා ලැයිස්තුව ===================== */
+    const THEMES = [
+        { id: "classic", name: "Classic",       a: "#0284c7", b: "#fef3c7", meta: "#0284c7" },
+        { id: "saffron", name: "Saffron",       a: "#7c2d12", b: "#fde68a", meta: "#b45309" },
+        { id: "ocean",   name: "Ocean",         a: "#1e3a8a", b: "#dbeafe", meta: "#1d4ed8" },
+        { id: "forest",  name: "Forest",        a: "#14532d", b: "#dcfce7", meta: "#15803d" },
+        { id: "lotus",   name: "Lotus",         a: "#701a75", b: "#fce7f3", meta: "#a21caf" },
+        { id: "night",   name: "Night",         a: "#111827", b: "#f59e0b", meta: "#0b1120" },
+        { id: "bw",      name: "Black & White", a: "#000000", b: "#ffffff", meta: "#000000" }
+    ];
+
+    // A4 = 210 x 297 mm. 1240px පළල x 2 = 2480px (300 dpi)
+    const A4_W = 1240;
+    const A4_H = Math.round(A4_W * 297 / 210);   // 1754
+    const EXPORT_SCALE = 2;
+
+    const TABLE_STYLES = ["grid", "striped", "minimal", "soft", "framed"];
+    let currentStyle = "grid";
+
+    function setTableStyle(id) {
+        if (!TABLE_STYLES.includes(id)) id = "grid";
+        currentStyle = id;
+        store("solarCal.tstyle", id);
+        document.documentElement.setAttribute("data-tstyle", id);
+        document.getElementById("styleSelect").value = id;
+    }
+
+    function fillStyleOptions() {
+        const sel = document.getElementById("styleSelect");
+        const names = T().styles;
+        sel.innerHTML = TABLE_STYLES.map((id, i) => `<option value="${id}">${names[i]}</option>`).join("");
+        sel.value = currentStyle;
+    }
+
+    let currentLang = "en";
+    let currentTheme = "classic";
+    let lastRender = null;      // අවසන් වරට ගණනය කළ දත්ත
+    let lastBlob = null, lastFileName = "", lastBlobUrl = null;
+
+    function store(key, val) { try { localStorage.setItem(key, val); } catch (e) {} }
+    function load(key) { try { return localStorage.getItem(key); } catch (e) { return null; } }
+    function T() { return langData[currentLang]; }
+    function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])); }
+
+    function setLanguage(code) {
+        if (!langData[code]) code = "en";
+        currentLang = code;
+        store("solarCal.lang", code);
+        const data = T();
+        document.documentElement.lang = data.htmlLang;
+        document.getElementById("langSelect").value = code;
+        document.querySelectorAll("[data-i18n]").forEach(el => {
+            const v = data[el.getAttribute("data-i18n")];
+            if (v !== undefined) el.textContent = v;
+        });
+        document.getElementById("btnDownload").textContent = data.btnDl;
+        fillStyleOptions();
+        rerenderIfShown();
+    }
+
+    function setTheme(id) {
+        const th = THEMES.find(t => t.id === id) || THEMES[0];
+        currentTheme = th.id;
+        store("solarCal.theme", th.id);
+        document.documentElement.setAttribute("data-theme", th.id);
+        document.querySelector('meta[name="theme-color"]').setAttribute("content", th.meta);
+        document.querySelectorAll(".swatch").forEach(s => s.classList.toggle("active", s.dataset.theme === th.id));
+    }
+
+    function initUI() {
+        const sel = document.getElementById("langSelect");
+        Object.keys(langData).forEach(code => {
+            const o = document.createElement("option");
+            o.value = code; o.textContent = langData[code].name;
+            sel.appendChild(o);
+        });
+        const box = document.getElementById("themeSwatches");
+        THEMES.forEach(t => {
+            const b = document.createElement("button");
+            b.type = "button"; b.className = "swatch"; b.dataset.theme = t.id;
+            b.title = t.name; b.setAttribute("aria-label", t.name);
+            b.style.background = `linear-gradient(135deg, ${t.a} 0 50%, ${t.b} 50% 100%)`;
+            b.onclick = () => setTheme(t.id);
+            box.appendChild(b);
+        });
+
+        const savedCols = load("solarCal.cols");
+        if (savedCols) document.getElementById("colsSelect").value = savedCols;
+
+        setTheme(load("solarCal.theme") || "classic");
+        currentStyle = load("solarCal.tstyle") || "grid";
+        document.documentElement.setAttribute("data-tstyle", currentStyle);
+
+        let lang = load("solarCal.lang");
+        if (!lang) {
+            const nav = (navigator.language || "en").toLowerCase();
+            const map = { si: "si", my: "my", th: "th", hi: "hi", km: "km", lo: "lo", bn: "bn", vi: "vi", ja: "ja", en: "en" };
+            if (nav.startsWith("zh")) lang = /tw|hk|mo|hant/.test(nav) ? "zhHant" : "zhHans";
+            else lang = map[nav.slice(0, 2)] || "en";
         }
+        setLanguage(lang);
+    }
+
+    function rerenderIfShown() {
+        store("solarCal.cols", document.getElementById("colsSelect").value);
+        if (document.getElementById("lithContainer").style.display === "block") generateLith();
+    }
+
+    /* ===================== 📅 දත්ත සකස් කිරීම ===================== */
+    function groupMonth(days) {
+        const mk = r => ({ start: r.date, end: r.date, twilight: r.twilight, civil: r.civil, sunrise: r.sunrise, noon: r.noon });
+        let tempGroup = null, firstPassRows = [];
+        days.forEach(row => {
+            if (!tempGroup) tempGroup = mk(row);
+            else if (tempGroup.sunrise === row.sunrise) tempGroup.end = row.date;
+            else { firstPassRows.push(tempGroup); tempGroup = mk(row); }
+        });
+        if (tempGroup) firstPassRows.push(tempGroup);
+
+        if (firstPassRows.length >= 10) return firstPassRows;
+
+        let compressedRows = [], chunkGroup = null;
+        days.forEach(row => {
+            if (!chunkGroup) chunkGroup = mk(row);
+            else if (chunkGroup.sunrise === row.sunrise && (row.date - chunkGroup.start < 3)) chunkGroup.end = row.date;
+            else { compressedRows.push(chunkGroup); chunkGroup = mk(row); }
+        });
+        if (chunkGroup) compressedRows.push(chunkGroup);
+        return compressedRows;
+    }
+
+    // තීරුවක පේළි ගණන (මාස මාතෘකාව + වගු ශීර්ෂය = පේළි 2ක් ලෙස)
+    function maxColumnRows(groups, cols) {
+        const per = 12 / cols;
+        let max = 0;
+        for (let c = 0; c < cols; c++) {
+            let sum = 0;
+            for (let m = c * per; m < (c + 1) * per; m++) sum += groups[m].length + 2;
+            max = Math.max(max, sum);
+        }
+        return max;
+    }
+
+    function chooseCols(groups) {
+        const pick = document.getElementById("colsSelect").value;
+        if (pick === "3" || pick === "4") return parseInt(pick);
+        // ස්වයංක්‍රීය: තීරු 3කින් A4 එකට වඩා දිග යන්නේ නම් තීරු 4කට බෙදන්න
+        return maxColumnRows(groups, 3) > 66 ? 4 : 3;
+    }
+
+    function formatZone(zone) {
+        const sign = zone >= 0 ? "+" : "-";
+        const abs = Math.abs(zone);
+        const h = Math.floor(abs), m = Math.round((abs - h) * 60);
+        return `GMT ${sign}${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
+    }
+
+    function buildCalendarInner(r, cols) {
+        const data = T();
+        const per = 12 / cols;
+        let colsHtml = "";
+        for (let c = 0; c < cols; c++) {
+            colsHtml += `<div class="column">`;
+            for (let m = c * per; m < (c + 1) * per; m++) {
+                let rowsHtml = "";
+                r.groups[m].forEach(g => {
+                    const d = g.start === g.end ? String(g.start).padStart(2, "0")
+                        : `${String(g.start).padStart(2, "0")}-${String(g.end).padStart(2, "0")}`;
+                    rowsHtml += `<tr><td class="col-date">${d}</td><td class="col-twilight">${g.twilight}</td><td class="col-civil">${g.civil}</td><td class="col-sunrise">${g.sunrise}</td><td class="col-noon">${g.noon}</td></tr>`;
+                });
+                colsHtml += `
+                <div class="month-section">
+                    <div class="month-title">${data.months[m]}</div>
+                    <table>
+                        <colgroup><col style="width:18%"><col style="width:20.5%"><col style="width:20.5%"><col style="width:20.5%"><col style="width:20.5%"></colgroup>
+                        <thead><tr><th>${data.thDate}</th><th>${data.thTwi}</th><th>${data.thCivil}</th><th>${data.thSun}</th><th>${data.thNoon}</th></tr></thead>
+                        <tbody>${rowsHtml}</tbody>
+                    </table>
+                </div>`;
+            }
+            colsHtml += `</div>`;
+        }
+        const loc = esc(r.locName);
+        return `
+            <div class="lith-header">
+                <h1>${loc}${data.titleSep}${esc(data.titleSuf)}</h1>
+                <h2>${esc(data.subTitle)}</h2>
+            </div>
+            <div class="lith-columns" style="--cols:${cols}">${colsHtml}</div>
+            <div class="spacer"></div>
+            <div class="lith-footer">
+                <strong>${data.footerLoc}:</strong> ${loc} &nbsp;|&nbsp;
+                <strong>${data.footerYear}:</strong> ${r.year} &nbsp;|&nbsp;
+                <strong>${data.footerLat}:</strong> ${r.lat}° &nbsp;|&nbsp;
+                <strong>${data.footerLon}:</strong> ${r.lon}° &nbsp;|&nbsp;
+                <strong>${data.footerGmt}:</strong> ${formatZone(r.zone)}
+            </div>`;
     }
 
     function generateLith() {
-        const locName = document.getElementById('locationName').value;
-        const lat = parseFloat(document.getElementById('lat').value);
-        const lon = parseFloat(document.getElementById('lon').value);
-        const year = parseInt(document.getElementById('yearSelect').value);
-        const zone = parseFloat(document.getElementById('tzSelect').value); 
-        const twiOffset = parseInt(document.getElementById('twiMinutes').value) || 0; 
-        const data = langData[currentLang];
-        
-        document.getElementById('mainTitle').innerText = currentLang === "si" ? `${locName} ${data.titleSuf}` : `${locName} - ${data.titleSuf}`;
-        document.getElementById('subTitle').innerText = data.subTitle;
-        
-        for(let m=0; m<12; m++) { monthlyDataStructure[m] = []; }
+        const locName = document.getElementById("locationName").value.trim() || "Unknown";
+        const lat = parseFloat(document.getElementById("lat").value);
+        const lon = parseFloat(document.getElementById("lon").value);
+        const year = parseInt(document.getElementById("yearSelect").value);
+        const zone = parseFloat(document.getElementById("tzSelect").value);
+        const twiOffset = parseInt(document.getElementById("twiMinutes").value) || 0;
+        if ([lat, lon, year].some(isNaN)) return;
 
+        const groups = [];
         for (let m = 0; m < 12; m++) {
-            let totalDays = new Date(year, m + 1, 0).getDate();
+            const days = [];
+            const totalDays = new Date(year, m + 1, 0).getDate();
             for (let d = 1; d <= totalDays; d++) {
-                let times = AstronomyEngine.calculateDay(year, m + 1, d, lat, lon, zone, twiOffset);
-                if (times) {
-                    monthlyDataStructure[m].push({
-                        date: d, twilight: times.twilight, civil: times.civil, sunrise: times.sunrise, noon: times.noon
-                    });
-                }
+                const t = AstronomyEngine.calculateDay(year, m + 1, d, lat, lon, zone, twiOffset);
+                if (t) days.push({ date: d, ...t });
             }
+            groups.push(groupMonth(days));
         }
 
-        const colIds = ['col1', 'col2', 'col3'];
-        colIds.forEach(id => document.getElementById(id).innerHTML = "");
+        const cols = chooseCols(groups);
+        lastRender = { locName, lat, lon, year, zone, groups, cols };
 
-        for (let m = 0; m < 12; m++) {
-            let targetColIndex = Math.floor(m / 4); 
-            
-            let monthHtml = `
-                <div class="month-section">
-                    <div class="month-title"> ${data.months[m]} </div>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th style="width:16%;">${data.thDate}</th>
-                                <th style="width:21%;">${data.thTwi}</th>
-                                <th style="width:21%;">${data.thCivil}</th>
-                                <th style="width:21%;">${data.thSun}</th>
-                                <th style="width:21%;">${data.thNoon}</th>
-                            </tr>
-                        </thead>
-                        <tbody>`;
-            
-            let tempGroup = null;
-            let firstPassRows = [];
-            
-            monthlyDataStructure[m].forEach((row) => {
-                if (!tempGroup) {
-                    tempGroup = { start: row.date, end: row.date, twilight: row.twilight, civil: row.civil, sunrise: row.sunrise, noon: row.noon };
-                } else if (tempGroup.sunrise === row.sunrise) {
-                    tempGroup.end = row.date;
-                } else {
-                    firstPassRows.push(tempGroup);
-                    tempGroup = { start: row.date, end: row.date, twilight: row.twilight, civil: row.civil, sunrise: row.sunrise, noon: row.noon };
-                }
-            });
-            if (tempGroup) firstPassRows.push(tempGroup);
-
-            let compressedRows = [];
-            
-            if (firstPassRows.length < 10) {
-                let chunkGroup = null;
-                monthlyDataStructure[m].forEach((row, index) => {
-                    if (!chunkGroup) {
-                        chunkGroup = { start: row.date, end: row.date, twilight: row.twilight, civil: row.civil, sunrise: row.sunrise, noon: row.noon };
-                    } else if (chunkGroup.sunrise === row.sunrise && (row.date - chunkGroup.start < 3)) {
-                        chunkGroup.end = row.date;
-                    } else {
-                        compressedRows.push(chunkGroup);
-                        chunkGroup = { start: row.date, end: row.date, twilight: row.twilight, civil: row.civil, sunrise: row.sunrise, noon: row.noon };
-                    }
-                });
-                if (chunkGroup) compressedRows.push(chunkGroup);
-            } else {
-                compressedRows = firstPassRows;
-            }
-
-            compressedRows.forEach(group => {
-                let dateDisplay = group.start === group.end ? 
-                    String(group.start).padStart(2, '0') : 
-                    `${String(group.start).padStart(2, '0')}-${String(group.end).padStart(2, '0')}`;
-
-                monthHtml += `
-                    <tr>
-                        <td class="col-date">${dateDisplay}</td>
-                        <td class="col-twilight">${group.twilight}</td>
-                        <td class="col-civil">${group.civil}</td>
-                        <td class="col-sunrise">${group.sunrise}</td>
-                        <td class="col-noon">${group.noon}</td>
-                    </tr>`;
-            });
-
-            monthHtml += `</tbody></table></div>`;
-            document.getElementById(colIds[targetColIndex]).innerHTML += monthHtml;
-        }
-
-        let gmtPrefix = zone >= 0 ? "+" : "";
-        document.getElementById('lithFooter').innerHTML = `
-    <strong>${data.footerLoc}:</strong> ${locName} &nbsp;|&nbsp; <strong>${data.footerYear}:</strong> ${year} &nbsp;|&nbsp; <strong>${data.footerLat}:</strong> ${lat}° &nbsp;|&nbsp; <strong>${data.footerLon}:</strong> ${lon}° &nbsp;|&nbsp; <strong>${data.footerGmt}:</strong> GMT ${gmtPrefix}${zone}
-`;
-
-        document.getElementById('lithContainer').style.display = "block";
-        document.getElementById('btnDownload').style.display = "inline-block";
+        const container = document.getElementById("lithContainer");
+        container.classList.toggle("cols-4", cols === 4);
+        container.innerHTML = buildCalendarInner(lastRender, cols);
+        container.style.display = "block";
+        document.getElementById("btnDownload").style.display = "inline-block";
     }
 
-    function downloadAsJPG() {
-        const target = document.getElementById('lithContainer');
-        
-        html2canvas(target, {
-            scale: 2.5, 
-            useCORS: true,
-            backgroundColor: "#ffffff",
-            logging: false,
-            windowWidth: 1024 // පින්තූරය ගන්නා අවස්ථාවේදී පමණක් ස්ථාවර පළලක් අනුගමනය කරයි
-        }).then(canvas => {
-            const jpgUrl = canvas.toDataURL('image/jpeg', 0.98);
-            const downloadLink = document.createElement('a');
-            downloadLink.href = jpgUrl;
-            downloadLink.download = `Solar_Calendar_${document.getElementById('locationName').value || 'Unknown'}.jpg`;
-            document.body.appendChild(downloadLink);
-            downloadLink.click();
-            document.body.removeChild(downloadLink);
-        }).catch(err => {
+    /* ===================== 📄 A4 ප්‍රමාණයට ගැලපීම ===================== */
+    function fitsA4(node) {
+        if (node.scrollHeight > A4_H - 10) return false;   // කුඩා ආරක්ෂිත ඉඩක්
+        const tables = node.querySelectorAll("table");
+        for (const t of tables) {
+            if (t.scrollWidth > t.parentElement.clientWidth + 1) return false;
+        }
+        return true;
+    }
+
+    function fitToA4(node) {
+        // අකුරු ප්‍රමාණය binary search මගින් A4 උසට ගැලපෙන උපරිම අගය සොයයි
+        let lo = 5, hi = 22, best = 5;
+        for (let i = 0; i < 14; i++) {
+            const mid = (lo + hi) / 2;
+            node.style.setProperty("--tfs", mid + "px");
+            if (fitsA4(node)) { best = mid; lo = mid; } else { hi = mid; }
+        }
+        node.style.setProperty("--tfs", best + "px");
+        // අවසාන තහවුරු කිරීම — තවමත් දිග නම් ටිකක් අඩු කරන්න
+        while (!fitsA4(node) && best > 4) {
+            best -= 0.1;
+            node.style.setProperty("--tfs", best + "px");
+        }
+        node.style.height = A4_H + "px";
+        return best;
+    }
+
+    async function renderA4Canvas() {
+        const stage = document.getElementById("exportStage");
+        stage.innerHTML = "";
+        const node = document.createElement("div");
+        node.className = "lith-container a4";
+        node.style.display = "flex";
+        node.innerHTML = buildCalendarInner(lastRender, lastRender.cols);
+        stage.appendChild(node);
+
+        try { if (document.fonts && document.fonts.ready) await document.fonts.ready; } catch (e) {}
+        fitToA4(node);
+
+        const bg = getComputedStyle(node).backgroundColor || "#ffffff";
+        try {
+            return await html2canvas(node, {
+                scale: EXPORT_SCALE,
+                width: A4_W, height: A4_H,
+                useCORS: true,
+                backgroundColor: bg,
+                logging: false,
+                windowWidth: A4_W + 200,
+                windowHeight: A4_H + 200
+            });
+        } finally {
+            stage.innerHTML = "";
+        }
+    }
+
+    async function downloadAsJPG() {
+        if (!lastRender) return;
+        const btn = document.getElementById("btnDownload");
+        btn.disabled = true;
+        btn.textContent = T().preparing;
+        try {
+            const canvas = await renderA4Canvas();
+            const blob = await new Promise((res, rej) => canvas.toBlob(b => b ? res(b) : rej(new Error("toBlob failed")), "image/jpeg", 0.95));
+            const safeName = (lastRender.locName || "Unknown").replace(/[\\/:*?"<>|\s]+/g, "_");
+            lastFileName = `Solar_Calendar_${safeName}_${lastRender.year}.jpg`;
+            lastBlob = blob;
+            await openSaveModal(blob, lastFileName);
+        } catch (err) {
             console.error("බාගත කිරීමේ දෝෂයක්:", err);
-            alert("කරුණාකර නැවත උත්සාහ කරන්න.");
-        });
+            alert("කරුණාකර නැවත උත්සාහ කරන්න. / Please try again.");
+        } finally {
+            btn.disabled = false;
+            btn.textContent = T().btnDl;
+        }
     }
+
+    /* ===================== 💾 සුරැකීම (iPhone ඇතුළුව) ===================== */
+    function blobToDataURL(blob) {
+        return new Promise((res, rej) => { const fr = new FileReader(); fr.onload = () => res(fr.result); fr.onerror = rej; fr.readAsDataURL(blob); });
+    }
+
+    function getShareFile() {
+        try { return new File([lastBlob], lastFileName, { type: "image/jpeg" }); } catch (e) { return null; }
+    }
+
+    async function openSaveModal(blob, fileName) {
+        if (lastBlobUrl) URL.revokeObjectURL(lastBlobUrl);
+        lastBlobUrl = URL.createObjectURL(blob);
+
+        const a = document.getElementById("btnFile");
+        a.href = lastBlobUrl;
+        a.download = fileName;
+
+        // iPhone වල දිගු එබීමෙන් "Save to Photos" ලබාගැනීමට data URL රූපයක්
+        document.getElementById("previewImg").src = await blobToDataURL(blob);
+
+        const file = getShareFile();
+        const canShareFile = !!(file && navigator.canShare && navigator.canShare({ files: [file] }));
+        document.getElementById("btnShare").style.display = canShareFile ? "inline-block" : "none";
+
+        document.getElementById("saveModal").classList.add("open");
+    }
+
+    async function shareImage() {
+        const file = getShareFile();
+        if (!file) return;
+        try {
+            await navigator.share({ files: [file], title: lastFileName });
+        } catch (err) {
+            if (err && err.name !== "AbortError") console.warn("Share failed:", err);
+        }
+    }
+
+    function closeSaveModal() {
+        document.getElementById("saveModal").classList.remove("open");
+    }
+
+    initUI();
 
     // 📱 Service Worker
     if ('serviceWorker' in navigator) {
@@ -385,7 +930,7 @@
             try {
                 const reg = await navigator.serviceWorker.register('./sw.js');
                 console.log('Service Worker Registered Successfully');
-                
+
                 navigator.serviceWorker.addEventListener('controllerchange', () => {
                     window.location.reload();
                 });
