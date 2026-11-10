@@ -22,7 +22,7 @@
             --cal-bg:#ffffff; --cal-title:#0f172a; --cal-sub:#475569; --cal-rule:#0284c7;
             --month-border:#64748b; --month-title-bg:#e2e8f0; --month-title-text:#0f172a; --stripe:#e6ecf3;
             --th-bg:#f1f5f9; --th-text:#1e293b; --cell-border:#94a3b8; --cell-text:#000000;
-            --c-date:#f1f5f9; --c-twi:#fef2f2; --c-civil:#fffbeb; --c-sun:#fef3c7; --c-noon:#f0fdf4;
+            --c-date:#f1f5f9; --c-twi:#fef2f2; --c-civil:#fffbeb; --c-sun:#fef3c7; --c-noon:#f0fdf4; --c-set:#ffedd5;
             --footer-text:#475569;
         }
         [data-theme="saffron"] {
@@ -32,7 +32,7 @@
             --cal-bg:#fffdf8; --cal-title:#7c2d12; --cal-sub:#9a3412; --cal-rule:#b45309;
             --month-border:#9a6b2f; --month-title-bg:#fbe3bd; --month-title-text:#7c2d12; --stripe:#fbe8c8;
             --th-bg:#fdecc8; --th-text:#4a1d0a; --cell-border:#d4b483; --cell-text:#2a1306;
-            --c-date:#fdecc8; --c-twi:#fde4cf; --c-civil:#fff3dc; --c-sun:#fde68a; --c-noon:#fefae8;
+            --c-date:#fdecc8; --c-twi:#fde4cf; --c-civil:#fff3dc; --c-sun:#fde68a; --c-noon:#fefae8; --c-set:#fed7aa;
             --footer-text:#7c2d12;
         }
         [data-theme="ocean"] {
@@ -42,7 +42,7 @@
             --cal-bg:#ffffff; --cal-title:#1e3a8a; --cal-sub:#1e40af; --cal-rule:#1d4ed8;
             --month-border:#3b6fd8; --month-title-bg:#d6e4fa; --month-title-text:#1e3a8a; --stripe:#e1ebfb;
             --th-bg:#dbeafe; --th-text:#0f1e3d; --cell-border:#9fbbe8; --cell-text:#0a1530;
-            --c-date:#dbeafe; --c-twi:#e0e7ff; --c-civil:#e0f2fe; --c-sun:#fef9c3; --c-noon:#ecfeff;
+            --c-date:#dbeafe; --c-twi:#e0e7ff; --c-civil:#e0f2fe; --c-sun:#fef9c3; --c-noon:#ecfeff; --c-set:#ffedd5;
             --footer-text:#1e3a8a;
         }
         [data-theme="forest"] {
@@ -52,7 +52,7 @@
             --cal-bg:#ffffff; --cal-title:#14532d; --cal-sub:#166534; --cal-rule:#15803d;
             --month-border:#2f7a4a; --month-title-bg:#d3eedb; --month-title-text:#14532d; --stripe:#e0f2e6;
             --th-bg:#dcfce7; --th-text:#10261a; --cell-border:#9cc9aa; --cell-text:#0a1f12;
-            --c-date:#dcfce7; --c-twi:#ecfccb; --c-civil:#f0fdf4; --c-sun:#fef9c3; --c-noon:#d1fae5;
+            --c-date:#dcfce7; --c-twi:#ecfccb; --c-civil:#f0fdf4; --c-sun:#fef9c3; --c-noon:#d1fae5; --c-set:#ffedd5;
             --footer-text:#14532d;
         }
         [data-theme="lotus"] {
@@ -62,7 +62,7 @@
             --cal-bg:#ffffff; --cal-title:#701a75; --cal-sub:#86198f; --cal-rule:#a21caf;
             --month-border:#a855b7; --month-title-bg:#f6dbf3; --month-title-text:#701a75; --stripe:#f7e3f4;
             --th-bg:#fae8ff; --th-text:#3b0d3a; --cell-border:#dcaee0; --cell-text:#2a0828;
-            --c-date:#fae8ff; --c-twi:#fce7f3; --c-civil:#fdf4ff; --c-sun:#fef3c7; --c-noon:#f5f3ff;
+            --c-date:#fae8ff; --c-twi:#fce7f3; --c-civil:#fdf4ff; --c-sun:#fef3c7; --c-noon:#f5f3ff; --c-set:#ffe4e6;
             --footer-text:#701a75;
         }
         [data-theme="night"] {
@@ -73,7 +73,7 @@
             --cal-bg:#111827; --cal-title:#fbbf24; --cal-sub:#cbd5e1; --cal-rule:#f59e0b;
             --month-border:#4b5563; --month-title-bg:#283244; --month-title-text:#fbbf24; --stripe:#1c2638;
             --th-bg:#1f2937; --th-text:#e5e7eb; --cell-border:#4b5563; --cell-text:#f8fafc;
-            --c-date:#1f2937; --c-twi:#3b1d2a; --c-civil:#33290f; --c-sun:#4a3a0b; --c-noon:#12321f;
+            --c-date:#1f2937; --c-twi:#3b1d2a; --c-civil:#33290f; --c-sun:#4a3a0b; --c-noon:#12321f; --c-set:#4a2410;
             --footer-text:#cbd5e1;
         }
         [data-theme="bw"] {
@@ -84,7 +84,7 @@
             --cal-bg:#ffffff; --cal-title:#000000; --cal-sub:#000000; --cal-rule:#000000;
             --month-border:#000000; --month-title-bg:#e5e5e5; --month-title-text:#000000; --stripe:#e8e8e8;
             --th-bg:#ffffff; --th-text:#000000; --cell-border:#000000; --cell-text:#000000;
-            --c-date:#ffffff; --c-twi:#ffffff; --c-civil:#ffffff; --c-sun:#ffffff; --c-noon:#ffffff;
+            --c-date:#ffffff; --c-twi:#ffffff; --c-civil:#ffffff; --c-sun:#ffffff; --c-noon:#ffffff; --c-set:#ffffff;
             --footer-text:#000000;
         }
 
@@ -121,6 +121,7 @@
         /* ================= 📅 දින දර්ශනය ================= */
         .lith-container { --cols: 3; --tfs: 11px; background: var(--cal-bg); padding: 20px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); display: none; width: 100%; max-width: 1200px; margin: 0 auto; box-sizing: border-box; }
         .lith-container.cols-4 { max-width: 1400px; }
+        .lith-container.cols-5 { max-width: 1600px; }
         .lith-header { text-align: center; margin-bottom: 15px; border-bottom: 2px double var(--cal-rule); padding-bottom: 8px; }
         .lith-header h1 { margin: 0; color: var(--cal-title); font-size: 24px; font-weight: bold; line-height: 1.25; }
         .lith-header h2 { margin: 4px 0 0 0; color: var(--cal-sub); font-size: 15px; font-weight: normal; }
@@ -133,6 +134,7 @@
 
         table { width: 100%; border-collapse: collapse; font-size: var(--tfs); table-layout: fixed; }
         th, td { border: 1px solid var(--cell-border); padding: 0.42em 2px; text-align: center; }
+        td { padding-top: calc(0.42em + var(--xpad, 0px)); padding-bottom: calc(0.42em + var(--xpad, 0px)); }
         th { background-color: var(--th-bg); font-weight: bold; color: var(--th-text); font-size: 0.9em; line-height: 1.2; word-break: break-word; }
         td { white-space: nowrap; font-weight: bold; color: var(--cell-text); }
 
@@ -141,6 +143,7 @@
         .col-civil { background-color: var(--c-civil); }
         .col-sunrise { background-color: var(--c-sun); }
         .col-noon { background-color: var(--c-noon); }
+        .col-sunset { background-color: var(--c-set); }
 
 
         /* ================= 🧾 වගු රටා (Table Styles) ================= */
@@ -178,6 +181,7 @@
         [data-tstyle="framed"] .lith-container td { background: var(--cal-bg); }
         [data-tstyle="framed"] .lith-container td.col-date { background: var(--th-bg); border-right: 2px solid var(--month-border); }
         [data-tstyle="framed"] .lith-container td.col-sunrise { background: var(--c-sun); }
+        [data-tstyle="framed"] .lith-container td.col-sunset { background: var(--c-set); }
         [data-tstyle="framed"] .lith-container tbody tr:nth-child(5n) td { border-bottom: 2px solid var(--month-border); }
 
         .lith-footer { margin-top: 25px; border-top: 1px dashed var(--month-border); padding-top: 10px; font-size: 11px; color: var(--footer-text); text-align: center; line-height: 1.6; }
@@ -197,6 +201,21 @@
         .lith-container.a4 .lith-footer { margin-top: auto; padding-top: 10px; font-size: 15px; }
         .lith-container.a4 .lith-columns + .lith-footer { margin-top: auto; }
         .lith-container.a4 .spacer { flex: 1 0 14px; }
+
+        /* තීරු සමබර කිරීම — සියලු තීරු එකම පහළ රේඛාවෙන් අවසන් වේ */
+        .lith-container.a4 { position: relative; padding: 54px 48px 42px; }
+        .lith-container.a4.stretched .spacer { display: none; }
+        .lith-container.a4.stretched .lith-columns { flex: 1 1 auto; min-height: 0; margin-bottom: 12px; }
+
+        /* 🖼️ A4 රූපයේ වටේට බෝඩරය (තේමාවේ වර්ණයෙන්) */
+        .a4-frame { position: absolute; box-sizing: border-box; pointer-events: none; }
+        .a4-frame.outer { top: 14px; left: 14px; right: 14px; bottom: 14px; border: 3px solid var(--cal-rule); }
+        .a4-frame.inner { top: 22px; left: 22px; right: 22px; bottom: 22px; border: 1px solid var(--cal-rule); }
+        .a4-corner { position: absolute; width: 14px; height: 14px; box-sizing: border-box; background: var(--cal-rule); border: 3px solid var(--cal-bg); transform: rotate(45deg); }
+        .a4-corner.tl { top: 8.5px; left: 8.5px; }
+        .a4-corner.tr { top: 8.5px; right: 8.5px; }
+        .a4-corner.bl { bottom: 8.5px; left: 8.5px; }
+        .a4-corner.br { bottom: 8.5px; right: 8.5px; }
 
         /* ================= 💾 සුරැකීමේ කවුළුව (Save modal) ================= */
         .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.65); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 12px; box-sizing: border-box; }
@@ -261,7 +280,12 @@
                     <option value="auto" data-i18n="optAuto">Auto</option>
                     <option value="3">3</option>
                     <option value="4">4</option>
+                    <option value="5">5</option>
                 </select>
+            </label>
+
+            <label><span data-i18n="lblFields">Show Columns:</span>
+                <select id="fieldsSelect" onchange="setFields(this.value)"></select>
             </label>
 
             <button class="btn-gen" data-i18n="btnGen" onclick="generateLith()">Generate Calendar</button>
@@ -348,13 +372,15 @@
                 civilMins = solNoonMinutes - (H_civil * 4);
             }
 
+            let sunsetMins = solNoonMinutes + (H_sun * 4);
             let customDawnMins = sunriseMins - twiOffset;
 
             return {
                 twilight: formatMins(customDawnMins),
                 civil: formatMins(civilMins),
                 sunrise: formatMins(sunriseMins),
-                noon: formatMins(solNoonMinutes)
+                noon: formatMins(solNoonMinutes),
+                sunset: formatMins(sunsetMins)
             };
         }
     };
@@ -376,9 +402,9 @@
             styles: ["කොටු දැල", "පේළි ඉරි", "සරල", "මෘදු කැට", "රාමු සහිත"],
             lblLoc: "ප්‍රදේශයේ නම:", lblLat: "අක්ෂාංශ (Lat):", lblLon: "දේශාංශ (Lon):", lblYear: "වර්ෂය:",
             lblZone: "වේලා කලාපය (Time Zone):", lblTwiMin: "අරුණෝදය සඳහා අඩු කළ යුතු කාලය (මිනිත්තු):",
-            lblCols: "තීරු ගණන (A4):", optAuto: "ස්වයංක්‍රීය",
+            lblCols: "තීරු ගණන (A4):", optAuto: "ස්වයංක්‍රීය", lblFields: "පෙන්වන තීරු:",
             btnGen: "සටහන සාදන්න", titleSuf: "ප්‍රදේශයේ අරුණෝද්ගමනය", subTitle: "ඉර උදාවීම හා මධ්‍යහ්නය",
-            thDate: "දිනය", thTwi: "විනය අරුණෝදය", thCivil: "සිවිල් අරුණෝදය", thSun: "☀️ උදාව", thNoon: "🔆 මධ්‍යහ්නය",
+            thDate: "දිනය", thTwi: "විනය අරුණෝදය", thCivil: "සිවිල් අරුණෝදය", thSun: "☀️ උදාව", thNoon: "🔆 මධ්‍යහ්නය", thSet: "🌇 ඉර බැසීම",
             footerLoc: "ස්ථානය", footerYear: "වර්ෂය", footerLat: "අක්ෂාංශ", footerLon: "දේශාංශ", footerGmt: "වේලා කලාපය",
             btnDl: "🖼️ JPG ලෙස බාගත කරන්න", preparing: "⏳ සකසමින්...",
             saveTitle: "රූපය සුරකින්න",
@@ -393,9 +419,9 @@
             styles: ["Grid", "Striped", "Minimal", "Soft Tiles", "Framed"],
             lblLoc: "Location Name:", lblLat: "Latitude (Lat):", lblLon: "Longitude (Lon):", lblYear: "Year:",
             lblZone: "Time Zone:", lblTwiMin: "Dawn Offset Time (Minutes):",
-            lblCols: "Columns (A4):", optAuto: "Auto",
+            lblCols: "Columns (A4):", optAuto: "Auto", lblFields: "Show Columns:",
             btnGen: "Generate Calendar", titleSuf: "Solar Dawn & Noon", subTitle: "Sunrise and Solar Noon Times",
-            thDate: "Date", thTwi: "Dawn", thCivil: "Civil Twilight", thSun: "☀️ Sunrise", thNoon: "🔆 Noon",
+            thDate: "Date", thTwi: "Dawn", thCivil: "Civil Twilight", thSun: "☀️ Sunrise", thNoon: "🔆 Noon", thSet: "🌇 Sunset",
             footerLoc: "Location", footerYear: "Year", footerLat: "Lat", footerLon: "Lon", footerGmt: "Time Zone",
             btnDl: "🖼️ Download as JPG", preparing: "⏳ Preparing…",
             saveTitle: "Save Image",
@@ -410,9 +436,9 @@
             styles: ["ကွက်လပ်", "အစင်း", "ရိုးရှင်း", "နူးညံ့အကွက်", "ဘောင်ခတ်"],
             lblLoc: "နေရာအမည်:", lblLat: "လတ္တီတွဒ် (Lat):", lblLon: "လောင်ဂျီတွဒ် (Lon):", lblYear: "ခုနှစ်:",
             lblZone: "စံတော်ချိန်ဇုန် (Time Zone):", lblTwiMin: "အရုဏ်အတွက် နုတ်ရမည့်အချိန် (မိနစ်):",
-            lblCols: "ကော်လံ (A4):", optAuto: "အလိုအလျောက်",
+            lblCols: "ကော်လံ (A4):", optAuto: "အလိုအလျောက်", lblFields: "ပြသမည့် ကော်လံများ:",
             btnGen: "ပြက္ခဒိန် ထုတ်ရန်", titleSuf: "အရုဏ်နှင့် မွန်းတည့်ချိန်", subTitle: "နေထွက်ချိန်နှင့် မွန်းတည့်ချိန်များ",
-            thDate: "ရက်", thTwi: "ဝိနည်းအရုဏ်", thCivil: "အရပ်ဘက်အရုဏ်", thSun: "☀️ နေထွက်", thNoon: "🔆 မွန်းတည့်",
+            thDate: "ရက်", thTwi: "ဝိနည်းအရုဏ်", thCivil: "အရပ်ဘက်အရုဏ်", thSun: "☀️ နေထွက်", thNoon: "🔆 မွန်းတည့်", thSet: "🌇 နေဝင်",
             footerLoc: "နေရာ", footerYear: "ခုနှစ်", footerLat: "လတ္တီတွဒ်", footerLon: "လောင်ဂျီတွဒ်", footerGmt: "စံတော်ချိန်ဇုန်",
             btnDl: "🖼️ JPG အဖြစ် ဒေါင်းလုဒ်လုပ်ရန်", preparing: "⏳ ပြင်ဆင်နေသည်…",
             saveTitle: "ပုံကို သိမ်းရန်",
@@ -427,9 +453,9 @@
             styles: ["ตาราง", "แถบสลับ", "เรียบง่าย", "ช่องนุ่มนวล", "มีกรอบ"],
             lblLoc: "ชื่อสถานที่:", lblLat: "ละติจูด (Lat):", lblLon: "ลองจิจูด (Lon):", lblYear: "ปี:",
             lblZone: "เขตเวลา (Time Zone):", lblTwiMin: "เวลาที่หักสำหรับอรุณ (นาที):",
-            lblCols: "จำนวนคอลัมน์ (A4):", optAuto: "อัตโนมัติ",
+            lblCols: "จำนวนคอลัมน์ (A4):", optAuto: "อัตโนมัติ", lblFields: "คอลัมน์ที่แสดง:",
             btnGen: "สร้างปฏิทิน", titleSuf: "เวลาอรุณและเที่ยงวัน", subTitle: "เวลาดวงอาทิตย์ขึ้นและเที่ยงสุริยะ",
-            thDate: "วันที่", thTwi: "อรุณ (วินัย)", thCivil: "สนธยาพลเรือน", thSun: "☀️ ตะวันขึ้น", thNoon: "🔆 เที่ยงวัน",
+            thDate: "วันที่", thTwi: "อรุณ (วินัย)", thCivil: "สนธยาพลเรือน", thSun: "☀️ ตะวันขึ้น", thNoon: "🔆 เที่ยงวัน", thSet: "🌇 ตะวันตก",
             footerLoc: "สถานที่", footerYear: "ปี", footerLat: "ละติจูด", footerLon: "ลองจิจูด", footerGmt: "เขตเวลา",
             btnDl: "🖼️ ดาวน์โหลดเป็น JPG", preparing: "⏳ กำลังเตรียม…",
             saveTitle: "บันทึกรูปภาพ",
@@ -444,9 +470,9 @@
             styles: ["ग्रिड", "धारीदार", "सरल", "मुलायम खाने", "फ्रेमयुक्त"],
             lblLoc: "स्थान का नाम:", lblLat: "अक्षांश (Lat):", lblLon: "देशांतर (Lon):", lblYear: "वर्ष:",
             lblZone: "समय क्षेत्र (Time Zone):", lblTwiMin: "अरुणोदय के लिए घटाया जाने वाला समय (मिनट):",
-            lblCols: "कॉलम (A4):", optAuto: "स्वचालित",
+            lblCols: "कॉलम (A4):", optAuto: "स्वचालित", lblFields: "दिखाए जाने वाले कॉलम:",
             btnGen: "कैलेंडर बनाएँ", titleSuf: "अरुणोदय एवं मध्याह्न", subTitle: "सूर्योदय और सौर मध्याह्न का समय",
-            thDate: "दिनांक", thTwi: "विनय अरुणोदय", thCivil: "नागरिक संधिप्रकाश", thSun: "☀️ सूर्योदय", thNoon: "🔆 मध्याह्न",
+            thDate: "दिनांक", thTwi: "विनय अरुणोदय", thCivil: "नागरिक संधिप्रकाश", thSun: "☀️ सूर्योदय", thNoon: "🔆 मध्याह्न", thSet: "🌇 सूर्यास्त",
             footerLoc: "स्थान", footerYear: "वर्ष", footerLat: "अक्षांश", footerLon: "देशांतर", footerGmt: "समय क्षेत्र",
             btnDl: "🖼️ JPG के रूप में डाउनलोड करें", preparing: "⏳ तैयार हो रहा है…",
             saveTitle: "चित्र सहेजें",
@@ -461,9 +487,9 @@
             styles: ["网格", "斑马纹", "简约", "柔和方块", "边框"],
             lblLoc: "地点名称：", lblLat: "纬度 (Lat)：", lblLon: "经度 (Lon)：", lblYear: "年份：",
             lblZone: "时区 (Time Zone)：", lblTwiMin: "明相提前时间（分钟）：",
-            lblCols: "栏数 (A4)：", optAuto: "自动",
+            lblCols: "栏数 (A4)：", optAuto: "自动", lblFields: "显示栏目：",
             btnGen: "生成日历", titleSuf: "明相与正午时刻表", subTitle: "日出与太阳正午时间",
-            thDate: "日期", thTwi: "明相（律）", thCivil: "民用晨光", thSun: "☀️ 日出", thNoon: "🔆 正午",
+            thDate: "日期", thTwi: "明相（律）", thCivil: "民用晨光", thSun: "☀️ 日出", thNoon: "🔆 正午", thSet: "🌇 日落",
             footerLoc: "地点", footerYear: "年份", footerLat: "纬度", footerLon: "经度", footerGmt: "时区",
             btnDl: "🖼️ 下载为 JPG", preparing: "⏳ 正在生成…",
             saveTitle: "保存图片",
@@ -478,9 +504,9 @@
             styles: ["網格", "斑馬紋", "簡約", "柔和方塊", "邊框"],
             lblLoc: "地點名稱：", lblLat: "緯度 (Lat)：", lblLon: "經度 (Lon)：", lblYear: "年份：",
             lblZone: "時區 (Time Zone)：", lblTwiMin: "明相提前時間（分鐘）：",
-            lblCols: "欄數 (A4)：", optAuto: "自動",
+            lblCols: "欄數 (A4)：", optAuto: "自動", lblFields: "顯示欄目：",
             btnGen: "產生日曆", titleSuf: "明相與正午時刻表", subTitle: "日出與太陽正午時間",
-            thDate: "日期", thTwi: "明相（律）", thCivil: "民用晨光", thSun: "☀️ 日出", thNoon: "🔆 正午",
+            thDate: "日期", thTwi: "明相（律）", thCivil: "民用晨光", thSun: "☀️ 日出", thNoon: "🔆 正午", thSet: "🌇 日落",
             footerLoc: "地點", footerYear: "年份", footerLat: "緯度", footerLon: "經度", footerGmt: "時區",
             btnDl: "🖼️ 下載為 JPG", preparing: "⏳ 正在產生…",
             saveTitle: "儲存圖片",
@@ -495,9 +521,9 @@
             styles: ["ក្រឡា", "ឆ្នូត", "សាមញ្ញ", "ប្រអប់ទន់", "មានស៊ុម"],
             lblLoc: "ឈ្មោះទីតាំង៖", lblLat: "រយៈទទឹង (Lat)៖", lblLon: "រយៈបណ្ដោយ (Lon)៖", lblYear: "ឆ្នាំ៖",
             lblZone: "ល្វែងម៉ោង (Time Zone)៖", lblTwiMin: "ពេលដកសម្រាប់អរុណ (នាទី)៖",
-            lblCols: "ជួរឈរ (A4)៖", optAuto: "ស្វ័យប្រវត្តិ",
+            lblCols: "ជួរឈរ (A4)៖", optAuto: "ស្វ័យប្រវត្តិ", lblFields: "ជួរឈរដែលបង្ហាញ៖",
             btnGen: "បង្កើតប្រតិទិន", titleSuf: "ពេលអរុណ និងថ្ងៃត្រង់", subTitle: "ពេលថ្ងៃរះ និងថ្ងៃត្រង់",
-            thDate: "ថ្ងៃទី", thTwi: "អរុណ (វិន័យ)", thCivil: "ព្រលឹមស៊ីវិល", thSun: "☀️ ថ្ងៃរះ", thNoon: "🔆 ថ្ងៃត្រង់",
+            thDate: "ថ្ងៃទី", thTwi: "អរុណ (វិន័យ)", thCivil: "ព្រលឹមស៊ីវិល", thSun: "☀️ ថ្ងៃរះ", thNoon: "🔆 ថ្ងៃត្រង់", thSet: "🌇 ថ្ងៃលិច",
             footerLoc: "ទីតាំង", footerYear: "ឆ្នាំ", footerLat: "រយៈទទឹង", footerLon: "រយៈបណ្ដោយ", footerGmt: "ល្វែងម៉ោង",
             btnDl: "🖼️ ទាញយកជា JPG", preparing: "⏳ កំពុងរៀបចំ…",
             saveTitle: "រក្សាទុករូបភាព",
@@ -512,9 +538,9 @@
             styles: ["ຕາຂ່າຍ", "ແຖບສະຫຼັບ", "ລຽບງ່າຍ", "ຊ່ອງອ່ອນ", "ມີຂອບ"],
             lblLoc: "ຊື່ສະຖານທີ່:", lblLat: "ເສັ້ນຂະໜານ (Lat):", lblLon: "ເສັ້ນແວງ (Lon):", lblYear: "ປີ:",
             lblZone: "ເຂດເວລາ (Time Zone):", lblTwiMin: "ເວລາທີ່ຫັກສຳລັບອາລຸນ (ນາທີ):",
-            lblCols: "ຖັນ (A4):", optAuto: "ອັດຕະໂນມັດ",
+            lblCols: "ຖັນ (A4):", optAuto: "ອັດຕະໂນມັດ", lblFields: "ຖັນທີ່ສະແດງ:",
             btnGen: "ສ້າງປະຕິທິນ", titleSuf: "ເວລາອາລຸນ ແລະ ທ່ຽງວັນ", subTitle: "ເວລາຕາເວັນຂຶ້ນ ແລະ ທ່ຽງວັນ",
-            thDate: "ວັນທີ", thTwi: "ອາລຸນ (ວິໄນ)", thCivil: "ແສງເຊົ້າ (ພົນລະເຮືອນ)", thSun: "☀️ ຕາເວັນຂຶ້ນ", thNoon: "🔆 ທ່ຽງວັນ",
+            thDate: "ວັນທີ", thTwi: "ອາລຸນ (ວິໄນ)", thCivil: "ແສງເຊົ້າ (ພົນລະເຮືອນ)", thSun: "☀️ ຕາເວັນຂຶ້ນ", thNoon: "🔆 ທ່ຽງວັນ", thSet: "🌇 ຕາເວັນຕົກ",
             footerLoc: "ສະຖານທີ່", footerYear: "ປີ", footerLat: "ເສັ້ນຂະໜານ", footerLon: "ເສັ້ນແວງ", footerGmt: "ເຂດເວລາ",
             btnDl: "🖼️ ດາວໂຫຼດເປັນ JPG", preparing: "⏳ ກຳລັງກະກຽມ…",
             saveTitle: "ບັນທຶກຮູບ",
@@ -529,9 +555,9 @@
             styles: ["গ্রিড", "ডোরাকাটা", "সাধারণ", "কোমল ঘর", "ফ্রেমযুক্ত"],
             lblLoc: "স্থানের নাম:", lblLat: "অক্ষাংশ (Lat):", lblLon: "দ্রাঘিমাংশ (Lon):", lblYear: "বছর:",
             lblZone: "সময় অঞ্চল (Time Zone):", lblTwiMin: "অরুণোদয়ের জন্য বিয়োগ করার সময় (মিনিট):",
-            lblCols: "কলাম (A4):", optAuto: "স্বয়ংক্রিয়",
+            lblCols: "কলাম (A4):", optAuto: "স্বয়ংক্রিয়", lblFields: "প্রদর্শিত কলাম:",
             btnGen: "ক্যালেন্ডার তৈরি করুন", titleSuf: "অরুণোদয় ও মধ্যাহ্ন", subTitle: "সূর্যোদয় ও সৌর মধ্যাহ্নের সময়",
-            thDate: "তারিখ", thTwi: "বিনয় অরুণোদয়", thCivil: "নাগরিক ঊষা", thSun: "☀️ সূর্যোদয়", thNoon: "🔆 মধ্যাহ্ন",
+            thDate: "তারিখ", thTwi: "বিনয় অরুণোদয়", thCivil: "নাগরিক ঊষা", thSun: "☀️ সূর্যোদয়", thNoon: "🔆 মধ্যাহ্ন", thSet: "🌇 সূর্যাস্ত",
             footerLoc: "স্থান", footerYear: "বছর", footerLat: "অক্ষাংশ", footerLon: "দ্রাঘিমাংশ", footerGmt: "সময় অঞ্চল",
             btnDl: "🖼️ JPG হিসেবে ডাউনলোড করুন", preparing: "⏳ প্রস্তুত হচ্ছে…",
             saveTitle: "ছবি সংরক্ষণ",
@@ -546,9 +572,9 @@
             styles: ["Lưới", "Sọc", "Tối giản", "Ô mềm", "Khung viền"],
             lblLoc: "Tên địa điểm:", lblLat: "Vĩ độ (Lat):", lblLon: "Kinh độ (Lon):", lblYear: "Năm:",
             lblZone: "Múi giờ (Time Zone):", lblTwiMin: "Thời gian trừ cho rạng đông (phút):",
-            lblCols: "Số cột (A4):", optAuto: "Tự động",
+            lblCols: "Số cột (A4):", optAuto: "Tự động", lblFields: "Cột hiển thị:",
             btnGen: "Tạo lịch", titleSuf: "Giờ Rạng Đông & Chính Ngọ", subTitle: "Giờ mặt trời mọc và giữa trưa",
-            thDate: "Ngày", thTwi: "Rạng đông (Luật)", thCivil: "Bình minh dân dụng", thSun: "☀️ Mặt trời mọc", thNoon: "🔆 Chính ngọ",
+            thDate: "Ngày", thTwi: "Rạng đông (Luật)", thCivil: "Bình minh dân dụng", thSun: "☀️ Mặt trời mọc", thNoon: "🔆 Chính ngọ", thSet: "🌇 Mặt trời lặn",
             footerLoc: "Địa điểm", footerYear: "Năm", footerLat: "Vĩ độ", footerLon: "Kinh độ", footerGmt: "Múi giờ",
             btnDl: "🖼️ Tải xuống JPG", preparing: "⏳ Đang chuẩn bị…",
             saveTitle: "Lưu hình ảnh",
@@ -563,9 +589,9 @@
             styles: ["グリッド", "ストライプ", "シンプル", "ソフト", "枠線"],
             lblLoc: "場所の名前：", lblLat: "緯度 (Lat)：", lblLon: "経度 (Lon)：", lblYear: "年：",
             lblZone: "タイムゾーン：", lblTwiMin: "明相の差し引き時間（分）：",
-            lblCols: "列数 (A4)：", optAuto: "自動",
+            lblCols: "列数 (A4)：", optAuto: "自動", lblFields: "表示する列：",
             btnGen: "カレンダーを作成", titleSuf: "明相・南中時刻表", subTitle: "日の出と南中時刻",
-            thDate: "日付", thTwi: "明相（律）", thCivil: "市民薄明", thSun: "☀️ 日の出", thNoon: "🔆 南中",
+            thDate: "日付", thTwi: "明相（律）", thCivil: "市民薄明", thSun: "☀️ 日の出", thNoon: "🔆 南中", thSet: "🌇 日の入り",
             footerLoc: "場所", footerYear: "年", footerLat: "緯度", footerLon: "経度", footerGmt: "タイムゾーン",
             btnDl: "🖼️ JPGでダウンロード", preparing: "⏳ 作成中…",
             saveTitle: "画像を保存",
@@ -609,6 +635,43 @@
         sel.value = currentStyle;
     }
 
+    /* ===================== 🧮 පෙන්වන තීරු (Visible columns) ===================== */
+    const FIELD_DEF = {
+        twi:   { th: "thTwi",   key: "twilight", cls: "col-twilight" },
+        civil: { th: "thCivil", key: "civil",    cls: "col-civil" },
+        sun:   { th: "thSun",   key: "sunrise",  cls: "col-sunrise" },
+        noon:  { th: "thNoon",  key: "noon",     cls: "col-noon" },
+        set:   { th: "thSet",   key: "sunset",   cls: "col-sunset" }
+    };
+    const FIELD_SETS = {
+        all:           ["twi", "civil", "sun", "noon"],
+        allSet:        ["twi", "civil", "sun", "noon", "set"],
+        twiSunNoonSet: ["twi", "sun", "noon", "set"],
+        twiNoon:       ["twi", "noon"],
+        twiCivilNoon:  ["twi", "civil", "noon"],
+        twiSunNoon:    ["twi", "sun", "noon"]
+    };
+    let currentFields = "all";
+
+    function plainName(s) { return String(s).replace(/^[^\p{L}\p{N}]+/u, ""); }
+
+    function fillFieldOptions() {
+        const sel = document.getElementById("fieldsSelect");
+        const d = T();
+        sel.innerHTML = Object.keys(FIELD_SETS).map(id =>
+            `<option value="${id}">${FIELD_SETS[id].map(f => esc(plainName(d[FIELD_DEF[f].th]))).join(" + ")}</option>`
+        ).join("");
+        sel.value = currentFields;
+    }
+
+    function setFields(id) {
+        if (!FIELD_SETS[id]) id = "all";
+        currentFields = id;
+        store("solarCal.fields", id);
+        document.getElementById("fieldsSelect").value = id;
+        rerenderIfShown();
+    }
+
     let currentLang = "en";
     let currentTheme = "classic";
     let lastRender = null;      // අවසන් වරට ගණනය කළ දත්ත
@@ -632,6 +695,7 @@
         });
         document.getElementById("btnDownload").textContent = data.btnDl;
         fillStyleOptions();
+        fillFieldOptions();
         rerenderIfShown();
     }
 
@@ -666,6 +730,7 @@
 
         setTheme(load("solarCal.theme") || "classic");
         currentStyle = load("solarCal.tstyle") || "grid";
+        currentFields = FIELD_SETS[load("solarCal.fields")] ? load("solarCal.fields") : "all";
         document.documentElement.setAttribute("data-tstyle", currentStyle);
 
         let lang = load("solarCal.lang");
@@ -684,12 +749,14 @@
     }
 
     /* ===================== 📅 දත්ත සකස් කිරීම ===================== */
-    function groupMonth(days) {
-        const mk = r => ({ start: r.date, end: r.date, twilight: r.twilight, civil: r.civil, sunrise: r.sunrise, noon: r.noon });
+    function groupMonth(days, withSunset) {
+        // ඉර බැසීම පෙන්වන විට, එහි වේලාව වෙනස් වන තැනද පේළිය බෙදන්න
+        const key = r => withSunset ? r.sunrise + "|" + r.sunset : r.sunrise;
+        const mk = r => ({ start: r.date, end: r.date, twilight: r.twilight, civil: r.civil, sunrise: r.sunrise, noon: r.noon, sunset: r.sunset, key: key(r) });
         let tempGroup = null, firstPassRows = [];
         days.forEach(row => {
             if (!tempGroup) tempGroup = mk(row);
-            else if (tempGroup.sunrise === row.sunrise) tempGroup.end = row.date;
+            else if (tempGroup.key === key(row)) tempGroup.end = row.date;
             else { firstPassRows.push(tempGroup); tempGroup = mk(row); }
         });
         if (tempGroup) firstPassRows.push(tempGroup);
@@ -699,7 +766,7 @@
         let compressedRows = [], chunkGroup = null;
         days.forEach(row => {
             if (!chunkGroup) chunkGroup = mk(row);
-            else if (chunkGroup.sunrise === row.sunrise && (row.date - chunkGroup.start < 3)) chunkGroup.end = row.date;
+            else if (chunkGroup.key === key(row) && (row.date - chunkGroup.start < 3)) chunkGroup.end = row.date;
             else { compressedRows.push(chunkGroup); chunkGroup = mk(row); }
         });
         if (chunkGroup) compressedRows.push(chunkGroup);
@@ -707,22 +774,45 @@
     }
 
     // තීරුවක පේළි ගණන (මාස මාතෘකාව + වගු ශීර්ෂය = පේළි 2ක් ලෙස)
-    function maxColumnRows(groups, cols) {
-        const per = 12 / cols;
-        let max = 0;
-        for (let c = 0; c < cols; c++) {
-            let sum = 0;
-            for (let m = c * per; m < (c + 1) * per; m++) sum += groups[m].length + 2;
-            max = Math.max(max, sum);
+    // මාස තීරුවලට බෙදීම: 3/4 නම් සමානව, 5 නම් තීරු උස සමබර වන ලෙස (අනුපිළිවෙල නොවෙනස්ව)
+    function splitMonths(groups, cols) {
+        const h = groups.map(g => g.length + 2);
+        if (12 % cols === 0) {
+            const per = 12 / cols;
+            return Array.from({ length: cols }, (_, c) => [c * per, (c + 1) * per]);
         }
-        return max;
+        const pre = [0]; h.forEach(v => pre.push(pre[pre.length - 1] + v));
+        const best = Array.from({ length: cols + 1 }, () => Array(13).fill(Infinity));
+        const cut = Array.from({ length: cols + 1 }, () => Array(13).fill(0));
+        best[0][0] = 0;
+        for (let k = 1; k <= cols; k++)
+            for (let i = k; i <= 12; i++)
+                for (let j = k - 1; j < i; j++) {
+                    const v = Math.max(best[k - 1][j], pre[i] - pre[j]);
+                    if (v < best[k][i]) { best[k][i] = v; cut[k][i] = j; }
+                }
+        const ranges = [];
+        for (let k = cols, i = 12; k > 0; k--) { const j = cut[k][i]; ranges.unshift([j, i]); i = j; }
+        return ranges;
+    }
+
+    // තීරුවක පේළි ගණන (මාස මාතෘකාව + වගු ශීර්ෂය = පේළි 2ක් ලෙස)
+    function maxColumnRows(groups, cols) {
+        return Math.max(...splitMonths(groups, cols).map(([a, b]) => {
+            let sum = 0;
+            for (let m = a; m < b; m++) sum += groups[m].length + 2;
+            return sum;
+        }));
     }
 
     function chooseCols(groups) {
         const pick = document.getElementById("colsSelect").value;
-        if (pick === "3" || pick === "4") return parseInt(pick);
-        // ස්වයංක්‍රීය: තීරු 3කින් A4 එකට වඩා දිග යන්නේ නම් තීරු 4කට බෙදන්න
-        return maxColumnRows(groups, 3) > 66 ? 4 : 3;
+        if (["3", "4", "5"].includes(pick)) return parseInt(pick);
+        // ස්වයංක්‍රීය: A4 උසට ගැලපෙන අවම තීරු ගණන. තීරු 5 — දත්ත තීරු 3ක් හෝ අඩු විට පමණි
+        const nFields = (FIELD_SETS[currentFields] || FIELD_SETS.all).length;
+        const options = nFields <= 3 ? [3, 4, 5] : [3, 4];
+        for (const c of options) if (maxColumnRows(groups, c) <= 66) return c;
+        return options[options.length - 1];
     }
 
     function formatZone(zone) {
@@ -734,23 +824,28 @@
 
     function buildCalendarInner(r, cols) {
         const data = T();
-        const per = 12 / cols;
+        const ranges = splitMonths(r.groups, cols);
+        const fields = FIELD_SETS[r.fields] || FIELD_SETS.all;
+        const dateW = { 5: 16, 4: 18, 3: 22, 2: 28 }[fields.length] || 20;
+        const dataW = ((100 - dateW) / fields.length).toFixed(2);
+        const colgroup = `<col style="width:${dateW}%">` + fields.map(() => `<col style="width:${dataW}%">`).join("");
+        const headRow = `<th>${data.thDate}</th>` + fields.map(f => `<th>${data[FIELD_DEF[f].th]}</th>`).join("");
         let colsHtml = "";
         for (let c = 0; c < cols; c++) {
             colsHtml += `<div class="column">`;
-            for (let m = c * per; m < (c + 1) * per; m++) {
+            for (let m = ranges[c][0]; m < ranges[c][1]; m++) {
                 let rowsHtml = "";
                 r.groups[m].forEach(g => {
                     const d = g.start === g.end ? String(g.start).padStart(2, "0")
                         : `${String(g.start).padStart(2, "0")}-${String(g.end).padStart(2, "0")}`;
-                    rowsHtml += `<tr><td class="col-date">${d}</td><td class="col-twilight">${g.twilight}</td><td class="col-civil">${g.civil}</td><td class="col-sunrise">${g.sunrise}</td><td class="col-noon">${g.noon}</td></tr>`;
+                    rowsHtml += `<tr><td class="col-date">${d}</td>${fields.map(f => `<td class="${FIELD_DEF[f].cls}">${g[FIELD_DEF[f].key]}</td>`).join("")}</tr>`;
                 });
                 colsHtml += `
                 <div class="month-section">
                     <div class="month-title">${data.months[m]}</div>
                     <table>
-                        <colgroup><col style="width:18%"><col style="width:20.5%"><col style="width:20.5%"><col style="width:20.5%"><col style="width:20.5%"></colgroup>
-                        <thead><tr><th>${data.thDate}</th><th>${data.thTwi}</th><th>${data.thCivil}</th><th>${data.thSun}</th><th>${data.thNoon}</th></tr></thead>
+                        <colgroup>${colgroup}</colgroup>
+                        <thead><tr>${headRow}</tr></thead>
                         <tbody>${rowsHtml}</tbody>
                     </table>
                 </div>`;
@@ -791,14 +886,15 @@
                 const t = AstronomyEngine.calculateDay(year, m + 1, d, lat, lon, zone, twiOffset);
                 if (t) days.push({ date: d, ...t });
             }
-            groups.push(groupMonth(days));
+            groups.push(groupMonth(days, (FIELD_SETS[currentFields] || []).includes("set")));
         }
 
         const cols = chooseCols(groups);
-        lastRender = { locName, lat, lon, year, zone, groups, cols };
+        lastRender = { locName, lat, lon, year, zone, groups, cols, fields: currentFields };
 
         const container = document.getElementById("lithContainer");
         container.classList.toggle("cols-4", cols === 4);
+        container.classList.toggle("cols-5", cols === 5);
         container.innerHTML = buildCalendarInner(lastRender, cols);
         container.style.display = "block";
         document.getElementById("btnDownload").style.display = "inline-block";
@@ -810,6 +906,11 @@
         const tables = node.querySelectorAll("table");
         for (const t of tables) {
             if (t.scrollWidth > t.parentElement.clientWidth + 1) return false;
+        }
+        // කොටුවක අගය එහි පළලට වඩා දිග නම් (වේලාවන් එකට ඇලී පෙනීම) ගැලපෙන්නේ නැත
+        const cells = node.querySelectorAll("tbody tr:first-child td");
+        for (const td of cells) {
+            if (td.scrollWidth > td.clientWidth) return false;
         }
         return true;
     }
@@ -832,17 +933,45 @@
         return best;
     }
 
+    // A4 රූපයේ හිස් ඉඩ සමබර කිරීම: සෑම තීරුවකම පේළි උස වැඩි කර,
+    // ඉතිරි ඉඩ මාස අතර බෙදා, සියලු තීරු එකම පහළ රේඛාවට ගෙන එයි
+    function balanceColumns(node, tfs) {
+        node.classList.add("stretched");
+        const grid = node.querySelector(".lith-columns");
+        const H = grid.clientHeight;
+        const maxPad = tfs * 2;          // පේළියක් උපරිම වශයෙන් වැඩි කරන ප්‍රමාණය (එක් පැත්තකට)
+        const maxGap = tfs * 2.5;        // මාස අතර උපරිම අමතර ඉඩ
+        node.querySelectorAll(".column").forEach(col => {
+            const rows = col.querySelectorAll("tbody tr").length;
+            const extra = H - col.scrollHeight;
+            if (extra <= 0 || !rows) return;
+            let pad = Math.min(extra / (2 * rows), maxPad);
+            col.style.setProperty("--xpad", pad + "px");
+            for (let i = 0; i < 40 && col.scrollHeight > H && pad > 0; i++) {
+                pad = Math.max(0, pad - 0.1);
+                col.style.setProperty("--xpad", pad + "px");
+            }
+            const left = H - col.scrollHeight;
+            const n = col.children.length;
+            if (left > 0 && n > 1) col.style.gap = `calc(var(--tfs) * 0.9 + ${Math.min(left / (n - 1), maxGap).toFixed(2)}px)`;
+        });
+    }
+
+    const A4_FRAME = `<div class="a4-frame outer"></div><div class="a4-frame inner"></div>
+        <div class="a4-corner tl"></div><div class="a4-corner tr"></div><div class="a4-corner bl"></div><div class="a4-corner br"></div>`;
+
     async function renderA4Canvas() {
         const stage = document.getElementById("exportStage");
         stage.innerHTML = "";
         const node = document.createElement("div");
         node.className = "lith-container a4";
         node.style.display = "flex";
-        node.innerHTML = buildCalendarInner(lastRender, lastRender.cols);
+        node.innerHTML = A4_FRAME + buildCalendarInner(lastRender, lastRender.cols);
         stage.appendChild(node);
 
         try { if (document.fonts && document.fonts.ready) await document.fonts.ready; } catch (e) {}
-        fitToA4(node);
+        const tfs = fitToA4(node);
+        balanceColumns(node, tfs);
 
         const bg = getComputedStyle(node).backgroundColor || "#ffffff";
         try {
